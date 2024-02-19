@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import * as resources from "./resources";
 
 i18n.use(initReactI18next).init({
+  compatibilityJSON: "v3",
   fallbackLng: "en",
   lng: "en",
   resources: {
