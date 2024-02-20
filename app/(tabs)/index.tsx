@@ -1,37 +1,43 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, TextInput } from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 
 import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";
 
-import DrugCard from '../components/DrugCard/DrugCard';
+import DrugCard from "../components/DrugCard/DrugCard";
 
 const results = [
   {
     drugName: "APAP1",
     dosage: "2mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy"
+    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
   },
   {
     drugName: "APAP2",
     dosage: "2,5mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy"
+    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
   },
   {
     drugName: "APAP3",
     dosage: "10mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy"
+    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
   },
-]
+];
 
 const initI18n = i18n;
 
 export default function TabOneScreen() {
   const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
+      <TextInput placeholder={t("search")} onChangeText={(text) => {}} />
+      <View
+        style={styles.separator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
       <ScrollView>
         {results.map((result) => (
           <DrugCard
@@ -42,15 +48,6 @@ export default function TabOneScreen() {
           />
         ))}
       </ScrollView>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text style={styles.title}>{t("dashboard")}</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>
   );
 }

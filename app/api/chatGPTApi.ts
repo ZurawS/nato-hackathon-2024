@@ -1,19 +1,19 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 
 // Definicja URL API
-const openAiApiKey = '532b1e2c433f441b8aa53d2c1b96a948';
-const openAiApiUrl = 'https://openai-tide-hackathon.openai.azure.com/'
+const openAiApiKey = "532b1e2c433f441b8aa53d2c1b96a948";
+const openAiApiUrl = "https://openai-tide-hackathon.openai.azure.com/";
 
 // Interfejs reprezentujący dane dla encji (np. User)
 interface Request {
-  i
+  i;
   // Dodaj inne pola zgodnie z potrzebami
 }
 
 // Funkcja pomocnicza do obsługi błędów
 const handleApiError = (error: any) => {
   // Dostosuj obsługę błędów zgodnie z potrzebami
-  console.error('API Error:', error);
+  console.error("API Error:", error);
   throw error;
 };
 
@@ -22,7 +22,9 @@ export const api = {
   // Pobierz wszystkie encje
   getAllEntities: async (): Promise<EntityData[]> => {
     try {
-      const response: AxiosResponse<EntityData[]> = await axios.get(`${apiUrl}/entities`);
+      const response: AxiosResponse<EntityData[]> = await axios.get(
+        `${apiUrl}/entities`
+      );
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -32,7 +34,9 @@ export const api = {
   // Pobierz pojedynczą encję
   getEntityById: async (id: number): Promise<EntityData> => {
     try {
-      const response: AxiosResponse<EntityData> = await axios.get(`${apiUrl}/entities/${id}`);
+      const response: AxiosResponse<EntityData> = await axios.get(
+        `${apiUrl}/entities/${id}`
+      );
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -42,7 +46,10 @@ export const api = {
   // Dodaj nową encję
   addEntity: async (newEntity: EntityData): Promise<EntityData> => {
     try {
-      const response: AxiosResponse<EntityData> = await axios.post(`${apiUrl}/entities`, newEntity);
+      const response: AxiosResponse<EntityData> = await axios.post(
+        `${apiUrl}/entities`,
+        newEntity
+      );
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -50,9 +57,15 @@ export const api = {
   },
 
   // Zaktualizuj istniejącą encję
-  updateEntity: async (id: number, updatedEntity: EntityData): Promise<EntityData> => {
+  updateEntity: async (
+    id: number,
+    updatedEntity: EntityData
+  ): Promise<EntityData> => {
     try {
-      const response: AxiosResponse<EntityData> = await axios.put(`${apiUrl}/entities/${id}`, updatedEntity);
+      const response: AxiosResponse<EntityData> = await axios.put(
+        `${apiUrl}/entities/${id}`,
+        updatedEntity
+      );
       return response.data;
     } catch (error) {
       handleApiError(error);
