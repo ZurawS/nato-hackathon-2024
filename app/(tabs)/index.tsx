@@ -73,11 +73,16 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.selectContainer}>
+      <View style={styles.selectSrcCountryContainer}>
+        <View style={styles.selectSrcCountryTextContainer}>
+        <Text style={styles.selectSrcCountryText}>Source County:</Text>
+        </View>
+        <View style={styles.selectSrcCountrySelectContainer}>
         <Select options={data} searchable={true} />
+        </View>
       </View>
       <View style={styles.selectContainer}>
-        <Select options={data} searchable={true} />
+        <Select options={data} searchable={true} hideArrow={true} multiple={true} placeholderText="Start typing medicine name"/>
       </View>
       <View>
         <Text>{i18n.languages}</Text>
@@ -103,12 +108,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  selectSrcCountryContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 26,
+  },
+  selectSrcCountryTextContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  selectSrcCountryText: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  selectSrcCountrySelectContainer: {
+    flex: 2
+  },
   selectContainer: {
-    flex: 0,
-    flexDirection: "column",
     alignItems: "center",
     paddingHorizontal: 26,
-    marginVertical: 20,
+    marginVertical: 16
   },
   resultsContainer: {
     flex: 1,
