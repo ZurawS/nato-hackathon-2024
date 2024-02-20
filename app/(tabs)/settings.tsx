@@ -1,20 +1,21 @@
-import { StyleSheet, TextInput } from "react-native";
-
-import { Text, View } from "@/components/Themed";
+import { StyleSheet } from "react-native";
+import { View } from "@/components/Themed";
 import { useTranslation } from "react-i18next";
 import LanguagePicker from "../components/LanguagePicker/LanguagePicker";
-import { useContext } from "react";
-import DataContext from "../components/Context/DataContext";
+import SettingItem from "../components/SettingItem/SettingItem";
+import CountryOperationPicker from "../components/CountryOperationPicker/CountryOperationPicker";
 
 export default function TabTwoScreen() {
   const { t } = useTranslation();
 
-  // TODO dodać select na listę krajów
-  const { currentCountry, setCurrentCountry } = useContext(DataContext);
-
   return (
     <View style={styles.container}>
-      <LanguagePicker />
+      <SettingItem headText={t("settings.headTextLanguage")} descriptionText={t("settings.descriptionTextLanguage")}>
+        <LanguagePicker />
+      </SettingItem>
+      <SettingItem headText={t("settings.headTextCountryOperation")} descriptionText={t("settings.descriptionTextCountryOperation")}>
+        <CountryOperationPicker />
+      </SettingItem>
     </View>
   );
 }
@@ -23,6 +24,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
 });

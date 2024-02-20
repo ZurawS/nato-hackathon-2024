@@ -50,7 +50,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: t("settings"),
+          title: t("settings.title"),
           tabBarIcon: ({ color }) => (
             <Ionicons name="settings-outline" size={24} color={color} />
           ),
