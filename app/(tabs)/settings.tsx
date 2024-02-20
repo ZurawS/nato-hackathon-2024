@@ -2,13 +2,11 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-
-import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";
-const initI18n = i18n;
 
-export default function TabOneScreen() {
+export default function TabTwoScreen() {
   const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t("dashboard")}</Text>
@@ -17,7 +15,7 @@ export default function TabOneScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <EditScreenInfo path="app/(tabs)/two.tsx" />
     </View>
   );
 }
