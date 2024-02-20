@@ -1,16 +1,11 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { useColorScheme } from "@/components/useColorScheme";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { SelectProvider } from "@mobile-reality/react-native-select-pro";
+import DataContext from "./components/Context/DataContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,11 +45,16 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
   const queryClient = new QueryClient();
+  const [currentCountry, setCurrentCountry] = useState<string>();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <DataContext.Provider
+      value={{
+        currentCountry,
+        setCurrentCountry,
+      }}
+    >
       <QueryClientProvider client={queryClient}>
         <SelectProvider>
           <Stack>
@@ -63,6 +63,6 @@ function RootLayoutNav() {
           </Stack>
         </SelectProvider>
       </QueryClientProvider>
-    </ThemeProvider>
+    </DataContext.Provider>
   );
 }

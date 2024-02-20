@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
 
-import { Text, View } from "@/components/Themed";
+import { View, Text } from "@/components/Themed";
 
 import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 import DrugCard from "../components/DrugCard/DrugCard";
 import { Select } from "@mobile-reality/react-native-select-pro";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DataContext from "../components/Context/DataContext";
+import { useContext } from "react";
 
 const results = [
   {
@@ -61,10 +63,13 @@ const data = [
   },
 ];
 
+// DO NOT DELETE THIS INITIALIZES I18N LIBRARY
 const initI18n = i18n;
 
 export default function TabOneScreen() {
   const { t } = useTranslation();
+  //prettier-ignore
+  const { currentCountry, setCurrentCountry } = useContext(DataContext);
 
   return (
     <View style={styles.container}>
@@ -73,6 +78,9 @@ export default function TabOneScreen() {
       </View>
       <View style={styles.selectContainer}>
         <Select options={data} searchable={true} />
+      </View>
+      <View>
+        <Text>{i18n.languages}</Text>
       </View>
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {results.map((result) => (
@@ -83,20 +91,7 @@ export default function TabOneScreen() {
             description={result.description}
           />
         ))}
-        </KeyboardAwareScrollView>
-      {/* <Text style={styles.title}>Tab One</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <Text style={styles.title}>{t("dashboard")}</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" /> */}
+      </KeyboardAwareScrollView>
     </View>
   );
 }
@@ -107,7 +102,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-
   },
   selectContainer: {
     flex: 0,
@@ -115,13 +109,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 26,
     marginVertical: 20,
-
   },
   resultsContainer: {
     flex: 1,
     flexDirection: "column",
     width: "100%",
     paddingHorizontal: 20,
-  }
-
+  },
 });
