@@ -1,29 +1,54 @@
-import React, { FC } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { FC, useState } from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import DrugRow from "./DrugRow";
+import { Drug } from "../../../assets/models/drug.model";
+import { useTranslation } from "react-i18next";
+import { FontAwesome } from "@expo/vector-icons";
 
-interface DrugCardProps {
-  drugName: string;
-  dosage: string;
-  description: string;
-}
+const DrugCard: FC<Drug> = ({ initialDrugName, initialDrugIngredient, alternativeDrugs }: Drug) => {
+  const { t } = useTranslation();
+  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
 
-const DrugCard: FC<DrugCardProps> = ({ drugName, dosage, description }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.drugName}>{drugName}</Text>
-      <Text style={styles.dosage}>{dosage}</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.title}>{initialDrugName}</Text>
+      <Text style={styles.text}>{initialDrugIngredient}</Text>
+
+      <Pressable
+        style={styles.collapsiableToggle}
+        onPress={() => setIsAlternativeDrugsVisible((isAlternativeDrugsVisible) => !isAlternativeDrugsVisible)}
+      >
+        {!isAlternativeDrugsVisible && (
+          <View style={styles.chevron}>
+            <FontAwesome size={14} name="chevron-down" />
+          </View>
+        )}
+        {isAlternativeDrugsVisible && (
+          <View style={styles.chevron}>
+            <FontAwesome size={14} name="chevron-up" />
+          </View>
+        )}
+        <Text style={styles.collapsiableToggleText}>
+          {isAlternativeDrugsVisible ? t("drug.hideAlternativeDrugs") : t("drug.showAlternativeDrugs")}
+        </Text>
+      </Pressable>
+      {isAlternativeDrugsVisible && (
+        <View>
+          <View style={styles.separator}></View>
+          {alternativeDrugs.length > 0 && alternativeDrugs.map((drugData) => <DrugRow {...drugData} />)}
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 8,
     padding: 16,
     margin: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -32,18 +57,33 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  drugName: {
+  title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
-  dosage: {
-    fontSize: 16,
+  text: {
+    fontSize: 12,
+    marginTop: -6,
+    color: "gray",
+  },
+  separator: {
+    height: 2,
+    marginTop: 8,
+    backgroundColor: "lightgray",
+  },
+  collapsiableToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
     marginBottom: 8,
   },
-  description: {
+  collapsiableToggleText: {
     fontSize: 14,
-    color: 'gray',
+    fontStyle: "italic",
+  },
+  chevron: {
+    paddingRight: 8,
   },
 });
 

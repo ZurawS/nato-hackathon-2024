@@ -8,10 +8,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { useTranslation } from "react-i18next";
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
+function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["name"]; color: string }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
@@ -51,9 +48,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: t("settings.title"),
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="settings-outline" size={24} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Ionicons name="settings-outline" size={24} color={color} />,
         }}
       />
     </Tabs>

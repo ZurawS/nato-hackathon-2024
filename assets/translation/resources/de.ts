@@ -1,8 +1,7 @@
 const de = {
-    dashboard: "Instrumententafel",
-    settings: "Einstellungen",
-    "change-language": "Sprache ändern",
-  };
-  
-  export default de;
-  
+  dashboard: "Instrumententafel",
+  settings: "Einstellungen",
+  changeLanguage: "Sprache ändern",
+};
+
+export default de;

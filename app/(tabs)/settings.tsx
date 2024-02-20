@@ -5,15 +5,21 @@ import LanguagePicker from "../components/LanguagePicker/LanguagePicker";
 import SettingItem from "../components/SettingItem/SettingItem";
 import CountryOperationPicker from "../components/CountryOperationPicker/CountryOperationPicker";
 
-export default function TabTwoScreen() {
+export default function Settings() {
   const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
-      <SettingItem headText={t("settings.headTextLanguage")} descriptionText={t("settings.descriptionTextLanguage")}>
+      <SettingItem
+        headText={t("settings.headTextLanguage")}
+        descriptionText={t("settings.descriptionTextLanguage")}
+      >
         <LanguagePicker />
       </SettingItem>
-      <SettingItem headText={t("settings.headTextCountryOperation")} descriptionText={t("settings.descriptionTextCountryOperation")}>
+      <SettingItem
+        headText={t("settings.headTextCountryOperation")}
+        descriptionText={t("settings.descriptionTextCountryOperation")}
+      >
         <CountryOperationPicker />
       </SettingItem>
     </View>
@@ -23,6 +29,7 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
     alignItems: "center",
     justifyContent: "flex-start",
   },

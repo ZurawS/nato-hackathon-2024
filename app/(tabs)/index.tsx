@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { View, Text } from "@/components/Themed";
+import { View } from "@/components/Themed";
 
 import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";
@@ -10,37 +10,68 @@ import { Select } from "@mobile-reality/react-native-select-pro";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DataContext from "../components/Context/DataContext";
 import { useContext } from "react";
+import { Drug } from "../../assets/models/drug.model";
 
-const results = [
+const results: Drug[] = [
   {
-    drugName: "APAP1",
-    dosage: "2mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
-  },
-  {
-    drugName: "APAP2",
-    dosage: "2,5mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
-  },
-  {
-    drugName: "APAP3",
-    dosage: "10mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
-  },
-  {
-    drugName: "APAP4",
-    dosage: "10mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
-  },
-  {
-    drugName: "APAP5",
-    dosage: "10mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
-  },
-  {
-    drugName: "APAP6",
-    dosage: "10mg",
-    description: "APAP to lek na ogólnie przyjęty ból, np. ból dupy",
+    initialDrugName: "APAP",
+    initialDrugIngredient: "Drug Ingredient",
+    alternativeDrugs: [
+      {
+        drugName: "APAP1",
+        dosage: "2,5mg",
+        atcCodes: ["AAA12332"],
+        routeOfAdministration: "AAA12332",
+        pharmateuticalForm: "AAA12332",
+        additionalInfo: {
+          Ingredient: "Drug Ingredient",
+          usageDescription: "Usage description",
+        },
+      },
+      {
+        drugName: "APAP2",
+        dosage: "2,5mg",
+        atcCodes: ["AAA12332"],
+        routeOfAdministration: "AAA12332",
+        pharmateuticalForm: "AAA12332",
+        additionalInfo: {
+          Ingredient: "Drug Ingredient",
+          usageDescription: "Usage description",
+        },
+      },
+      {
+        drugName: "APAP3",
+        dosage: "2,5mg",
+        atcCodes: ["AAA12332"],
+        routeOfAdministration: "AAA12332",
+        pharmateuticalForm: "AAA12332",
+        additionalInfo: {},
+      },
+      {
+        drugName: "APAP4",
+        dosage: "2,5mg",
+        atcCodes: ["AAA12332"],
+        routeOfAdministration: "AAA12332",
+        pharmateuticalForm: "AAA12332",
+        additionalInfo: {},
+      },
+      {
+        drugName: "APAP5",
+        dosage: "2,5mg",
+        atcCodes: ["AAA12332"],
+        routeOfAdministration: "AAA12332",
+        pharmateuticalForm: "AAA12332",
+        additionalInfo: {},
+      },
+      {
+        drugName: "APAP6",
+        dosage: "2,5mg",
+        atcCodes: ["AAA12332"],
+        routeOfAdministration: "AAA12332",
+        pharmateuticalForm: "AAA12332",
+        additionalInfo: {},
+      },
+    ],
   },
 ];
 
@@ -66,9 +97,8 @@ const data = [
 // DO NOT DELETE THIS INITIALIZES I18N LIBRARY
 const initI18n = i18n;
 
-export default function TabOneScreen() {
+export default function Dashboard() {
   const { t } = useTranslation();
-  //prettier-ignore
   const { currentCountry, setCurrentCountry } = useContext(DataContext);
 
   return (
@@ -79,16 +109,13 @@ export default function TabOneScreen() {
       <View style={styles.selectContainer}>
         <Select options={data} searchable={true} />
       </View>
-      <View>
-        <Text>{i18n.languages}</Text>
-      </View>
       <KeyboardAwareScrollView style={styles.resultsContainer}>
-        {results.map((result) => (
+        {results.map((result, index) => (
           <DrugCard
-            key={result.drugName}
-            drugName={result.drugName}
-            dosage={result.dosage}
-            description={result.description}
+            key={`result-${result.initialDrugName}-${index}`}
+            initialDrugName={result.initialDrugName}
+            initialDrugIngredient={result.initialDrugIngredient}
+            alternativeDrugs={result.alternativeDrugs}
           />
         ))}
       </KeyboardAwareScrollView>
