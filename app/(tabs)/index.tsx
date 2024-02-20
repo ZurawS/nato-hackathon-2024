@@ -1,7 +1,11 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from "react-native";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import EditScreenInfo from "@/components/EditScreenInfo";
+import { Text, View } from "@/components/Themed";
+
+import i18n from "../../assets/translation/i18n";
+import { useTranslation } from "react-i18next";
+
 import DrugCard from '../components/DrugCard/DrugCard';
 
 const results = [
@@ -22,7 +26,10 @@ const results = [
   },
 ]
 
+const initI18n = i18n;
+
 export default function TabOneScreen() {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -37,6 +44,12 @@ export default function TabOneScreen() {
       </ScrollView>
       <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Text style={styles.title}>{t("dashboard")}</Text>
+      <View
+        style={styles.separator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>
   );
@@ -45,16 +58,16 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
 });

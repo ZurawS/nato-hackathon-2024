@@ -1,6 +1,6 @@
-const translations = {
+const en = {
   dashboard: "Dashboard",
   settings: "Settings",
 };
 
-export default translations;
+export default en;
