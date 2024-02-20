@@ -1,6 +1,5 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, TextInput } from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 
 import i18n from "../../assets/translation/i18n";
@@ -66,6 +65,7 @@ const initI18n = i18n;
 
 export default function TabOneScreen() {
   const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <View style={styles.selectContainer}>

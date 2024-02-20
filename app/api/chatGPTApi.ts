@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 
 const apiUrl = 'https://openai-tide-hackathon.openai.azure.com/openai/deployments/gpt-35/chat/completions?api-version=2023-07-01-preview';
 
