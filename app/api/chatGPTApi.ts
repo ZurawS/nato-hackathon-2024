@@ -1,70 +1,51 @@
 import axios, { AxiosResponse } from 'axios';
 
-// Definicja URL API
-const openAiApiKey = '532b1e2c433f441b8aa53d2c1b96a948';
-const openAiApiUrl = 'https://openai-tide-hackathon.openai.azure.com/'
+const apiUrl = 'https://openai-tide-hackathon.openai.azure.com/openai/deployments/gpt-35/chat/completions?api-version=2023-07-01-preview';
 
-// Interfejs reprezentujący dane dla encji (np. User)
-interface Request {
-  i
-  // Dodaj inne pola zgodnie z potrzebami
-}
-
-// Funkcja pomocnicza do obsługi błędów
-const handleApiError = (error: any) => {
-  // Dostosuj obsługę błędów zgodnie z potrzebami
-  console.error('API Error:', error);
-  throw error;
+const headers = {
+  'Content-Type': 'application/json',
+  'api-key': '532b1e2c433f441b8aa53d2c1b96a948',
 };
 
-// Operacje CRUD dla encji
-export const api = {
-  // Pobierz wszystkie encje
-  getAllEntities: async (): Promise<EntityData[]> => {
+const data = {
+  messages: [
+    { role: 'system', content: 'You are an AI assistant that helps people find information.' }
+  ],
+  max_tokens: 800,
+  temperature: 0.7,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+  top_p: 0.95,
+  stop: null,
+};
+
+const handleApiError = (error: any): Error => {
+    console.error('API Error:', error);
+    return {
+      code: 'API_ERROR',
+      message: 'An error occurred while calling the API. Please try again later.',
+    }
+  };
+
+  interface SubstanceDescriptionWithAlternatives {
+    substance: string;
+    usageDescription: string;
+    alternatives: string[];
+  }
+
+  interface Error {
+    code: string;
+    message: string;
+  }
+
+
+export const chatGPTApi = {
+  getSubstanceDescriptionWithAlternatives: async (substance: string): Promise<SubstanceDescriptionWithAlternatives | Error> => {
     try {
-      const response: AxiosResponse<EntityData[]> = await axios.get(`${apiUrl}/entities`);
+      const response: AxiosResponse<SubstanceDescriptionWithAlternatives> = await axios.post(apiUrl, data, { headers });
       return response.data;
     } catch (error) {
-      handleApiError(error);
-    }
-  },
-
-  // Pobierz pojedynczą encję
-  getEntityById: async (id: number): Promise<EntityData> => {
-    try {
-      const response: AxiosResponse<EntityData> = await axios.get(`${apiUrl}/entities/${id}`);
-      return response.data;
-    } catch (error) {
-      handleApiError(error);
-    }
-  },
-
-  // Dodaj nową encję
-  addEntity: async (newEntity: EntityData): Promise<EntityData> => {
-    try {
-      const response: AxiosResponse<EntityData> = await axios.post(`${apiUrl}/entities`, newEntity);
-      return response.data;
-    } catch (error) {
-      handleApiError(error);
-    }
-  },
-
-  // Zaktualizuj istniejącą encję
-  updateEntity: async (id: number, updatedEntity: EntityData): Promise<EntityData> => {
-    try {
-      const response: AxiosResponse<EntityData> = await axios.put(`${apiUrl}/entities/${id}`, updatedEntity);
-      return response.data;
-    } catch (error) {
-      handleApiError(error);
-    }
-  },
-
-  // Usuń encję
-  deleteEntity: async (id: number): Promise<void> => {
-    try {
-      await axios.delete(`${apiUrl}/entities/${id}`);
-    } catch (error) {
-      handleApiError(error);
+      return handleApiError(error);
     }
   },
 };
