@@ -11,7 +11,7 @@ function SelectDrugPicker({ selectCountryDrugNames }: SelectDrugPickerProps) {
     const [selectList, setSelectList] = useState(selectCountryDrugNames);
 
     useEffect(() => {
-        setSelectList(selectCountryDrugNames)
+        setSelectList([...selectCountryDrugNames])
         console.log("RERANDERED")
     }, [selectCountryDrugNames])
 

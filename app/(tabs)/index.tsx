@@ -33,7 +33,7 @@ export default function Dashboard() {
     getCountryTradeNames(sourceCountry)
       .then((data) => {
         const selectedCountryNames = data.map((name) => ({ label: name, value: name }));
-        setSelectCountryDrugNames(selectedCountryNames);
+        setSelectCountryDrugNames([...selectedCountryNames]);
         setAppLoading(false);
         // console.log(selectedCountryNames, selectCountryDrugNames);
       })
@@ -55,7 +55,9 @@ export default function Dashboard() {
         </View>
           <SourceCountryPicker />
       </View>
-        <SelectDrugPicker selectCountryDrugNames={selectCountryDrugNames} />
+      {selectCountryDrugNames.length > 0 ?
+        <SelectDrugPicker key={"dupa"} selectCountryDrugNames={[...selectCountryDrugNames]} /> :
+        <SelectDrugPicker key={"dupa1"} selectCountryDrugNames={[]} />}
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {/* //TODO REPLACE WITH API */}
         {/* {results.map((result, index) => (
