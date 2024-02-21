@@ -5,6 +5,7 @@ const en = {
     insertThreeCharacters: "Insert at least 3 characters",
     selectSourceCountry: "Select",
     sourceCountryPlaceholder: "Select Medicine's Country of Origin",
+    noResults: "No results were found",
   },
   changeLanguage: "Change language",
   settings: {

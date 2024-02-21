@@ -9,7 +9,7 @@ export interface DrugResponse {
 }
 
 export interface Drug {
-  sourceDrag: SourceDrug;
+  sourceDrug: SourceDrug;
   alternativeDrugs: AlternativeDrug[];
 }
 

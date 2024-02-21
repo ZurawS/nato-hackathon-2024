@@ -8,11 +8,7 @@ interface SettingItemProps {
   children: ReactNode;
 }
 
-export default function SettingItem({
-  headText,
-  descriptionText,
-  children,
-}: SettingItemProps) {
+export default function SettingItem({ headText, descriptionText, children }: SettingItemProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.menuItemHeadText}>{headText}</Text>
@@ -28,7 +24,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     width: "100%",
-    paddingTop: 10,
   },
   menuItemHeadText: {
     fontSize: 14,

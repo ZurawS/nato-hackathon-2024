@@ -61,19 +61,23 @@ export default function Dashboard() {
   }, [isFetching, isFetchingDrugs]);
 
   useEffect(() => {
-    console.log(drugData);
+    console.log({ drugData });
   }, [drugData]);
 
   const removeCard = (id: string) => {
-    setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrag.id !== id));
-  }
+    setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.selectSrcCountryContainer}>
         <View style={styles.selectSrcCountryTextContainer}>
-          <Text style={styles.selectSrcCountryText}>{t("dashboard.sourceCountry")}:</Text>
-          <Text style={styles.selectSrcCountryDescText}>{t("dashboard.sourceCountryPlaceholder")}</Text>
+          <Text numberOfLines={1} style={styles.selectSrcCountryText}>
+            {t("dashboard.sourceCountry")}:
+          </Text>
+          <Text numberOfLines={1} style={styles.selectSrcCountryDescText}>
+            {t("dashboard.sourceCountryPlaceholder")}
+          </Text>
         </View>
         <SourceCountryPicker />
       </View>
@@ -88,17 +92,23 @@ export default function Dashboard() {
       )}
 
       <KeyboardAwareScrollView style={styles.resultsContainer}>
-        {foundDrugs?.length ? (
-          foundDrugs.map((result, index) => (
-            <DrugCard
-              key={`result-${result.sourceDrag.tradeName}-${result.sourceDrag.id}`}
-              sourceDrag={result.sourceDrag}
-              alternativeDrugs={result.alternativeDrugs}
-              removeCard={removeCard}
-            />
-          ))
+        {drugData?.drugs?.length ? (
+          drugData.drugs.map((result, index) =>
+            result ? (
+              <DrugCard
+                key={`result-${result?.sourceDrug?.tradeName}-${result?.sourceDrug?.id}`}
+                sourceDrug={result.sourceDrug}
+                alternativeDrugs={result.alternativeDrugs}
+                removeCard={removeCard}
+              />
+            ) : (
+              <></>
+            )
+          )
         ) : (
-          <></>
+          <View style={styles.noReultsFoundContainer}>
+            <Text style={styles.noReultsFoundText}>{t("dashboard.noResults")}</Text>
+          </View>
         )}
       </KeyboardAwareScrollView>
     </View>
@@ -111,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 10
+    paddingTop: 10,
   },
   selectSrcCountryContainer: {
     flex: 0,
@@ -143,5 +153,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     paddingHorizontal: 20,
+  },
+  noReultsFoundContainer: {
+    flex: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 10,
+  },
+  noReultsFoundText: {
+    fontSize: 14,
+    color: "gray",
   },
 });

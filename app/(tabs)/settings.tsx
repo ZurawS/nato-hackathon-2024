@@ -10,10 +10,7 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <SettingItem
-        headText={t("settings.headTextLanguage")}
-        descriptionText={t("settings.descriptionTextLanguage")}
-      >
+      <SettingItem headText={t("settings.headTextLanguage")} descriptionText={t("settings.descriptionTextLanguage")}>
         <LanguagePicker />
       </SettingItem>
       <SettingItem
@@ -31,5 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
+    paddingTop: 10,
   },
 });

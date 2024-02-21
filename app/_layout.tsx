@@ -72,10 +72,7 @@ function RootLayoutNav() {
         <SelectProvider>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="modal"
-              options={{ presentation: "modal", title: t("modal.title") }}
-            />
+            <Stack.Screen name="modal" options={{ presentation: "modal", title: t("modal.title") }} />
           </Stack>
           {appLoading && <AppLoadingIndicator />}
         </SelectProvider>
