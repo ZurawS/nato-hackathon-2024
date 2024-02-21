@@ -3,6 +3,7 @@ import { createContext } from "react";
 interface ContextModel {
   sourceCountry: string | undefined;
   currentCountry: string | undefined;
+  
   setCurrentCountry: (country: string) => void;
   setSourceCountry: (country: string) => void;
 }

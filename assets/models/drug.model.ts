@@ -1,15 +1,21 @@
 export interface Drug {
-  initialDrugName: string;
-  initialDrugIngredient: string;
-  alternativeDrugs: DrugAlternatives[];
+  name: string;
+  destinationCountryCode: string,
+  sourceCountryCode: string,
+  drugs: DrugAlternatives[];
 }
 
 export interface DrugAlternatives {
-  drugName: string;
-  dosage: string;
+  id: string;
+  activeIngredients: {
+    [key: string]: string;
+  };
+  countryCode: string;
   atcCodes: string[];
+  tradeName: string;
+  pharmaceuticalForm: string;
   routeOfAdministration: string;
-  pharmateuticalForm: string;
+  dosage: string;
   additionalInfo: {
     [key: string]: string;
   };

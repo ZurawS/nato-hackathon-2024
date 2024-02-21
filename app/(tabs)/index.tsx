@@ -1,82 +1,14 @@
 import { StyleSheet, Text } from "react-native";
-
 import { View } from "@/components/Themed";
-
 import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";
-
 import DrugCard from "../components/DrugCard/DrugCard";
-import { Select } from "@mobile-reality/react-native-select-pro";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DataContext from "../components/Context/DataContext";
 import { useContext, useEffect, useState } from "react";
-import { Drug } from "../../assets/models/drug.model";
 import { getCountryTradeNames } from "../api/api";
 import SourceCountryPicker from "../components/SourceCountryPicker/SourceCountryPicker";
 import SelectDrugPicker from "../components/SelectDrugPicker/SelectDrugPicker";
-
-const results: Drug[] = [
-  {
-    initialDrugName: "APAP",
-    initialDrugIngredient: "Drug Ingredient",
-    alternativeDrugs: [
-      {
-        drugName: "APAP1",
-        dosage: "2,5mg",
-        atcCodes: ["AAA12332"],
-        routeOfAdministration: "AAA12332",
-        pharmateuticalForm: "AAA12332",
-        additionalInfo: {
-          Ingredient: "Drug Ingredient",
-          usageDescription: "Usage description",
-        },
-      },
-      {
-        drugName: "APAP2",
-        dosage: "2,5mg",
-        atcCodes: ["AAA12332"],
-        routeOfAdministration: "AAA12332",
-        pharmateuticalForm: "AAA12332",
-        additionalInfo: {
-          Ingredient: "Drug Ingredient",
-          usageDescription: "Usage description",
-        },
-      },
-      {
-        drugName: "APAP3",
-        dosage: "2,5mg",
-        atcCodes: ["AAA12332"],
-        routeOfAdministration: "AAA12332",
-        pharmateuticalForm: "AAA12332",
-        additionalInfo: {},
-      },
-      {
-        drugName: "APAP4",
-        dosage: "2,5mg",
-        atcCodes: ["AAA12332"],
-        routeOfAdministration: "AAA12332",
-        pharmateuticalForm: "AAA12332",
-        additionalInfo: {},
-      },
-      {
-        drugName: "APAP5",
-        dosage: "2,5mg",
-        atcCodes: ["AAA12332"],
-        routeOfAdministration: "AAA12332",
-        pharmateuticalForm: "AAA12332",
-        additionalInfo: {},
-      },
-      {
-        drugName: "APAP6",
-        dosage: "2,5mg",
-        atcCodes: ["AAA12332"],
-        routeOfAdministration: "AAA12332",
-        pharmateuticalForm: "AAA12332",
-        additionalInfo: {},
-      },
-    ],
-  },
-];
 
 // DO NOT DELETE THIS INITIALIZES I18N LIBRARY
 const initI18n = i18n;
@@ -121,14 +53,15 @@ export default function Dashboard() {
       </View>
         <SelectDrugPicker selectCountryDrugNames={selectCountryDrugNames} />
       <KeyboardAwareScrollView style={styles.resultsContainer}>
-        {results.map((result, index) => (
+        {/* //TODO REPLACE WITH API */}
+        {/* {results.map((result, index) => (
           <DrugCard
             key={`result-${result.initialDrugName}-${index}`}
             initialDrugName={result.initialDrugName}
             initialDrugIngredient={result.initialDrugIngredient}
             alternativeDrugs={result.alternativeDrugs}
           />
-        ))}
+        ))} */}
       </KeyboardAwareScrollView>
     </View>
   );
