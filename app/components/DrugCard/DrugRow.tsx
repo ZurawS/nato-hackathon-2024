@@ -1,10 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { FC } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { FC, useContext, useState } from "react";
 import { KeyValue } from "../../../assets/models/utils.model";
-import { AlternativeDrug } from "../../../assets/models/drug.model";
+import { AlternativeDrug, CommonDrug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
+import { Entypo } from "@expo/vector-icons";
+import DataContext from "../Context/DataContext";
 
 const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
+  const [selected, setSelected] = useState(false);
+  const {drugsToSend, setDrugsToSend } =  useContext(DataContext);
+
   const {
     id,
     activeIngredients,
@@ -16,7 +21,9 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
     additionalInfo,
   } = alternativeDrug;
   const { t } = useTranslation();
-  const aditionalInfoArray: KeyValue[] = Object.entries(alternativeDrug.additionalInfo).map((entry) => ({
+  const aditionalInfoArray: KeyValue[] = Object.entries(
+    alternativeDrug.additionalInfo
+  ).map((entry) => ({
     key: entry[0],
     value: entry[1],
   }));
@@ -26,24 +33,50 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
   return (
     <View style={styles.drugContainer}>
       <View style={styles.drugNameContainer}>
-        <Text style={styles.drugName}>{tradeName}</Text>
+        <View>
+          <Pressable
+            onPress={() => {
+              setSelected(!selected);
+              setDrugsToSend([...drugsToSend, alternativeDrug]);
+            }}
+          >
+            <Text style={styles.drugName}>{tradeName}</Text>
+          </Pressable>
+          {selected ? <Entypo size={14} name="check" color={"green"} /> : null}
+        </View>
         <Text style={styles.countryCode}>{countryCode}</Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.activeIngredientsList")}:</Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>{activeIngredientsList}</Text>
+        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
+          {t("drug.drugDetails.activeIngredientsList")}:
+        </Text>
+        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
+          {activeIngredientsList}
+        </Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.routeOfAdministration")}:</Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>{routeOfAdministration}</Text>
+        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
+          {t("drug.drugDetails.routeOfAdministration")}:
+        </Text>
+        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
+          {routeOfAdministration}
+        </Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.dosage")}:</Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>{dosage}</Text>
+        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
+          {t("drug.drugDetails.dosage")}:
+        </Text>
+        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
+          {dosage}
+        </Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.atcCodes")}:</Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>{atcCodes}</Text>
+        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
+          {t("drug.drugDetails.atcCodes")}:
+        </Text>
+        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
+          {atcCodes}
+        </Text>
       </View>
     </View>
   );

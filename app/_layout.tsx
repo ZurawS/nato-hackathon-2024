@@ -8,6 +8,7 @@ import { SelectProvider } from "@mobile-reality/react-native-select-pro";
 import DataContext from "./components/Context/DataContext";
 import AppLoadingIndicator from "./components/AppLoadingIndicator/AppLoadingIndicator";
 import { useTranslation } from "react-i18next";
+import { CommonDrug } from "@/assets/models/drug.model";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,6 +52,7 @@ function RootLayoutNav() {
   const [currentCountry, setCurrentCountry] = useState<string>();
   const [sourceCountry, setSourceCountry] = useState<string>();
   const [appLoading, setAppLoading] = useState<boolean>(false);
+  const [drugsToSend, setDrugsToSend] = useState<CommonDrug[]>([]);
   const { t } = useTranslation();
 
   return (
@@ -62,6 +64,8 @@ function RootLayoutNav() {
         setSourceCountry,
         appLoading,
         setAppLoading,
+        drugsToSend,
+        setDrugsToSend
       }}
     >
       <QueryClientProvider client={queryClient}>

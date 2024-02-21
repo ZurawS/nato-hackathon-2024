@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import DrugRow from "./DrugRow";
-import { Drug } from "../../../assets/models/drug.model";
+import { CommonDrug, Drug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
@@ -56,7 +56,7 @@ const DrugCard: FC<Props> = ({ sourceDrag, alternativeDrugs, removeCard }) => {
           <View style={styles.separator}></View>
           {alternativeDrugs.length > 0 &&
             alternativeDrugs.map((drugData) => (
-              <DrugRow key={drugData.tradeName + drugData.id} {...drugData} />
+              <DrugRow key={drugData.tradeName + drugData.id} { ...drugData} />
             ))}
         </View>
       )}

@@ -13,7 +13,7 @@ export interface Drug {
   alternativeDrugs: AlternativeDrug[];
 }
 
-export interface SourceDrug {
+export interface CommonDrug {
   id: string;
   activeIngredients: {
     [key: string]: string;
@@ -28,17 +28,8 @@ export interface SourceDrug {
   };
 }
 
-export interface AlternativeDrug {
-  id: string;
-  activeIngredients: {
-    [key: string]: string;
-  };
-  countryCode: CountryCodes | null;
-  tradeName: string | null;
-  pharmaceuticalForm: string | null;
-  routeOfAdministration: string | null;
-  dosage: string | null;
-  additionalInfo: {
-    [key: string]: string;
-  };
+export interface SourceDrug extends CommonDrug {
+}
+
+export interface AlternativeDrug extends CommonDrug {
 }
