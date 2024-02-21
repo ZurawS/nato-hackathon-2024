@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Drug } from "../../assets/models/drug.model";
+import { Drug, DrugResponse } from "../../assets/models/drug.model";
 
 const apiUrl = "http://10.202.249.136:8080"; // tide
 // const apiUrl = "http://192.168.247.105:8080"; // hotel
@@ -17,9 +17,7 @@ interface Error {
   message: string;
 }
 
-export async function getCountryTradeNames(countryCode: string): Promise<string[]> {
-  console.log(apiUrl);
-  
+export async function getCountryDrugNames(countryCode: string): Promise<string[]> {
   const response: AxiosResponse<string[]> = await axios.get(`${apiUrl}/dictionary/tradeNames`, {
     params: { countryCode },
   });
@@ -27,12 +25,16 @@ export async function getCountryTradeNames(countryCode: string): Promise<string[
 }
 
 export async function getAlternativeDrugList(
-  names: string[],
+  name: string,
   destinationCountryCode: string,
-  sourceCountryCode: string
-): Promise<Drug[]> {
-  const response: AxiosResponse<Drug[]> = await axios.post(`${apiUrl}/findMany`, {
-    params: { names, destinationCountryCode, sourceCountryCode },
-  });
+  sourceCountryCode: string,
+  translationCountryCode: string = "POL"
+): Promise<DrugResponse> {
+  const response: AxiosResponse<DrugResponse> = await axios.post(
+    `${apiUrl}/find?name=${name}&destinationCountryCode=${destinationCountryCode}&translationCountryCode=${translationCountryCode}&sourceCountryCode=${sourceCountryCode}`,
+    {
+      params: { name, destinationCountryCode, sourceCountryCode },
+    }
+  );
   return response.data;
 }

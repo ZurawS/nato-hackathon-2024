@@ -5,14 +5,15 @@ import { Drug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
 import { FontAwesome } from "@expo/vector-icons";
 
-const DrugCard: FC<Drug> = ({ initialDrugName, initialDrugIngredient, alternativeDrugs }: Drug) => {
+const DrugCard: FC<Drug> = ({ sourceDrag, alternativeDrugs }: Drug) => {
   const { t } = useTranslation();
   const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
+  const activeIngredients = Object.values(sourceDrag.activeIngredients).join(", ");
 
   return (
-    <View style={styles.card} key={initialDrugName + initialDrugIngredient}>
-      <Text style={styles.title}>{initialDrugName}</Text>
-      <Text style={styles.text}>{initialDrugIngredient}</Text>
+    <View style={styles.card}>
+      <Text style={styles.title}>{sourceDrag.tradeName}</Text>
+      <Text style={styles.text}>{activeIngredients}</Text>
 
       <Pressable
         style={styles.collapsiableToggle}
@@ -36,7 +37,7 @@ const DrugCard: FC<Drug> = ({ initialDrugName, initialDrugIngredient, alternativ
         <View>
           <View style={styles.separator}></View>
           {alternativeDrugs.length > 0 &&
-            alternativeDrugs.map((drugData) => <DrugRow key={drugData.drugName + drugData.atcCodes} {...drugData} />)}
+            alternativeDrugs.map((drugData) => <DrugRow key={drugData.tradeName + drugData.id} {...drugData} />)}
         </View>
       )}
     </View>

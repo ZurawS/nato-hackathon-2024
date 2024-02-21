@@ -27,8 +27,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: t("dashboard"),
-          tabBarIcon: ({ color }) => <TabBarIcon name="medkit" color={color} />,
+          title: t("dashboard.title"),
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>

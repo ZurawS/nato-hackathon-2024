@@ -5,8 +5,8 @@ import { View, StyleSheet } from "react-native";
 import DataContext from "../Context/DataContext";
 
 const SourceCountryPicker = () => {
-  const { i18n } = useTranslation();
-  const { sourceCountry, setSourceCountry } = useContext(DataContext);
+  const { t } = useTranslation();
+  const { setSourceCountry } = useContext(DataContext);
 
   const countires = [
     { label: "Poland", value: "POL" },
@@ -19,11 +19,12 @@ const SourceCountryPicker = () => {
 
   return (
     <View style={styles.container}>
-      <Select options={countires} 
-      clearable={false}
-      onSelect={(option) => setSourceCountry(option.value)}
-      
-      placeholderText="Select Country"/>
+      <Select
+        options={countires}
+        clearable={false}
+        onSelect={(option) => setSourceCountry(option.value)}
+        placeholderText={t("dashboard.selectSourceCountry")}
+      />
     </View>
   );
 };

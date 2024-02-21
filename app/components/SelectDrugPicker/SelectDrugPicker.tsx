@@ -1,27 +1,25 @@
 import { View } from "@/components/Themed";
 import { Select } from "@mobile-reality/react-native-select-pro";
-import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
+import { LabelValue } from "../../../assets/models/utils.model";
+import { useTranslation } from "react-i18next";
 
 interface SelectDrugPickerProps {
-  selectCountryDrugNames: { label: string; value: string }[];
+  selectCountryDrugNames: LabelValue[];
+  setSelectedDrug: (value: LabelValue | undefined) => void;
 }
 
-function SelectDrugPicker({ selectCountryDrugNames }: SelectDrugPickerProps) {
-    const [selectList, setSelectList] = useState(selectCountryDrugNames);
-
-    useEffect(() => {
-        setSelectList([...selectCountryDrugNames])
-        console.log("RERANDERED")
-    }, [selectCountryDrugNames])
+function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDrugPickerProps) {
+  const { t } = useTranslation();
 
   return (
     <View style={styles.selectContainer}>
       <Select
-        options={selectList}
+        options={[...selectCountryDrugNames]}
         searchable
         hideArrow
-        placeholderText="Start typing medicine name"
+        onSelect={(option) => setSelectedDrug(option)}
+        placeholderText={t("dashboard.insertThreeCharacters")}
         disabled={selectCountryDrugNames.length === 0}
       />
     </View>
@@ -30,10 +28,10 @@ function SelectDrugPicker({ selectCountryDrugNames }: SelectDrugPickerProps) {
 
 const styles = StyleSheet.create({
   selectContainer: {
-        alignItems: "center",
-        paddingHorizontal: 26,
-        marginVertical: 16,
-  }
-})
+    alignItems: "center",
+    paddingHorizontal: 26,
+    marginVertical: 16,
+  },
+});
 
 export default SelectDrugPicker;
