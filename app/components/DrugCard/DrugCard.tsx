@@ -29,10 +29,10 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
       <View style={styles.cardHead}>
         <View style={styles.drugNameContainer}>
           <Text numberOfLines={1} style={styles.title}>
-            {tradeName}asndbhagjbdfjhabdhjgahdbhjag jdskbh v
+            {tradeName}
           </Text>
           <Text numberOfLines={1} style={styles.countryCode}>
-            {countryCode}
+            {"  "}{countryCode}
           </Text>
         </View>
         <Pressable onPress={() => removeCard(sourceDrug.id)}>
@@ -59,6 +59,7 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
         )}
         <Text numberOfLines={1} style={styles.collapsiableToggleText}>
           {isAlternativeDrugsVisible ? t("drug.hideAlternativeDrugs") : t("drug.showAlternativeDrugs")}
+          {" "}({alternativeDrugs.length})
         </Text>
       </Pressable>
       {isAlternativeDrugsVisible && (

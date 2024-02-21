@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet } from "react-native";
 import DataContext from "../Context/DataContext";
-import { CountryCodes } from "../../../assets/models/country-codes.model";
+import { CountryCodeMapping, CountryCodes } from "../../../assets/models/country-codes.model";
 
 const CountryOperationPicker = () => {
   const { t } = useTranslation();
@@ -17,7 +17,10 @@ const CountryOperationPicker = () => {
         options={countries}
         clearable={false}
         onSelect={(option) => setCurrentCountry(option.value)}
-        defaultOption={countries.filter((c) => c.value === currentCountry)[0] ?? CountryCodes.POL}
+        defaultOption={countries.filter((c) => c.value === currentCountry)[0] ?? {
+          label: "Nederlands",
+          value: CountryCodeMapping.nl,
+        }}
       />
     </View>
   );

@@ -14,7 +14,7 @@ interface ContextModel {
 
 const DataContext = createContext<ContextModel>({
   sourceCountry: undefined,
-  currentCountry: "POL", //country of operation
+  currentCountry: "NLD", //country of operation
   appLoading: false,
   drugsToSend: [],
   setDrugsToSend: (drugs: CommonDrug[]) => {},

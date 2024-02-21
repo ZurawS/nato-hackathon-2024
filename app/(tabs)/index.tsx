@@ -83,8 +83,8 @@ export default function Dashboard() {
       />
 
       <KeyboardAwareScrollView style={styles.resultsContainer}>
-        {drugData?.drugs?.length ? (
-          drugData.drugs.map((result, index) =>
+        {foundDrugs.length ? (
+          foundDrugs.map((result, index) =>
             result ? (
               <DrugCard
                 key={`result-${result?.sourceDrug?.tradeName}-${result?.sourceDrug?.id}`}
