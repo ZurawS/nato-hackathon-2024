@@ -1,6 +1,6 @@
 import { View } from "@/components/Themed";
 import { OptionType, Select } from "@mobile-reality/react-native-select-pro";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { LabelValue } from "../../../assets/models/utils.model";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +18,9 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
 
   return (
     <View style={styles.selectContainer}>
+      <Text numberOfLines={1} style={styles.selectDrugInput}>
+        {t("dashboard.drugSelection")}:
+      </Text>
       <Select
         options={selectCountryDrugNames}
         searchable
@@ -32,9 +35,15 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
 
 const styles = StyleSheet.create({
   selectContainer: {
-    alignItems: "center",
     paddingHorizontal: 26,
     marginVertical: 16,
+    width: "100%",
+    gap: 6,
+  },
+  selectDrugInput: {
+    justifyContent: "flex-start",
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });
 

@@ -16,11 +16,13 @@ const CountryOperationPicker = () => {
       <Select
         options={countries}
         clearable={false}
-        onSelect={(option) => setCurrentCountry(option.value)}
-        defaultOption={countries.filter((c) => c.value === currentCountry)[0] ?? {
-          label: "Nederlands",
-          value: CountryCodeMapping.nl,
-        }}
+        onSelect={(option) => setCurrentCountry(option.value as CountryCodeMapping)}
+        defaultOption={
+          countries.filter((c) => c.value === currentCountry)[0] ?? {
+            label: CountryCodes.GBR,
+            value: CountryCodeMapping.en,
+          }
+        }
       />
     </View>
   );

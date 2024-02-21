@@ -38,7 +38,7 @@ export default function Dashboard() {
     }
   );
 
-  const { data: drugData, isFetching: isFetchingDrugs } = useQuery<DrugResponse, AxiosError>(
+  const { isFetching: isFetchingDrugs } = useQuery<DrugResponse, AxiosError>(
     ["alternativeDrugList", selectedDrug, currentCountry, sourceCountry, i18n.language],
     () =>
       getAlternativeDrugList(
@@ -84,7 +84,7 @@ export default function Dashboard() {
 
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {foundDrugs.length ? (
-          foundDrugs.map((result, index) =>
+          foundDrugs.map((result) =>
             result ? (
               <DrugCard
                 key={`result-${result?.sourceDrug?.tradeName}-${result?.sourceDrug?.id}`}
@@ -97,9 +97,14 @@ export default function Dashboard() {
             )
           )
         ) : (
+          <></>
+        )}
+        {!foundDrugs.length && sourceCountry ? (
           <View style={styles.noReultsFoundContainer}>
             <Text style={styles.noReultsFoundText}>{t("dashboard.noResults")}</Text>
           </View>
+        ) : (
+          <></>
         )}
       </KeyboardAwareScrollView>
     </View>
