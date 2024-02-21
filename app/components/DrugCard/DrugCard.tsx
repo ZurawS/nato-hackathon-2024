@@ -1,15 +1,20 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import DrugRow from "./DrugRow";
 import { AlternativeDrug, Drug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import DataContext from "../Context/DataContext";
 
 interface Props extends Drug {
   removeCard: (sourceDrugId: string) => void;
 }
 
-const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props) => {
+const DrugCard: FC<Props> = ({
+  sourceDrug,
+  alternativeDrugs,
+  removeCard,
+}: Props) => {
   console.log({ sourceDrug });
   console.log({ alternativeDrugs });
   const {
@@ -23,8 +28,11 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
     activeIngredients,
   } = sourceDrug;
   const { t } = useTranslation();
-  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
+  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] =
+    useState<boolean>(false);
   const activeIngredientsList = Object.values(activeIngredients).join(", ");
+  const { drugsToSend, setDrugsToSend } = useContext(DataContext);
+  const [selected, setSelected] = useState(false);
 
   console.log(alternativeDrugs);
 
@@ -32,12 +40,26 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
     <View style={styles.card}>
       <View style={styles.cardHead}>
         <View style={styles.drugNameContainer}>
-          <Text numberOfLines={1} style={styles.title}>
-            {tradeName}
-          </Text>
+          <Pressable
+            onPress={() => {
+              if(selected) {
+                setDrugsToSend(drugsToSend.filter(drug => drug.id !== sourceDrug.id))
+                setSelected(!selected)
+              }else{
+                setDrugsToSend([...drugsToSend, sourceDrug]);
+                setSelected(!selected);
+              }
+            }}
+          >
+            <Text numberOfLines={1} style={styles.title}>
+              {tradeName}
+            </Text>
+          </Pressable>
           <Text numberOfLines={1} style={styles.countryCode}>
-            {"  "}{countryCode}
+            {"  "}
+            {countryCode}
           </Text>
+          {selected ? <Entypo size={28} name="check" color={"green"} /> : null}
         </View>
         <Pressable onPress={() => removeCard(sourceDrug.id)}>
           <AntDesign size={24} color={"gray"} name="close" />
@@ -49,7 +71,11 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
 
       <Pressable
         style={styles.collapsiableToggle}
-        onPress={() => setIsAlternativeDrugsVisible((isAlternativeDrugsVisible) => !isAlternativeDrugsVisible)}
+        onPress={() =>
+          setIsAlternativeDrugsVisible(
+            (isAlternativeDrugsVisible) => !isAlternativeDrugsVisible
+          )
+        }
       >
         {!isAlternativeDrugsVisible && (
           <View style={styles.chevron}>
@@ -62,8 +88,10 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
           </View>
         )}
         <Text numberOfLines={1} style={styles.collapsiableToggleText}>
-          {isAlternativeDrugsVisible ? t("drug.hideAlternativeDrugs") : t("drug.showAlternativeDrugs")}
-          {" "}({alternativeDrugs.length})
+          {isAlternativeDrugsVisible
+            ? t("drug.hideAlternativeDrugs")
+            : t("drug.showAlternativeDrugs")}{" "}
+          ({alternativeDrugs.length})
         </Text>
       </Pressable>
       {isAlternativeDrugsVisible && (
@@ -71,7 +99,14 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
           <View style={styles.separator}></View>
           {alternativeDrugs.length > 0 ? (
             alternativeDrugs.map((drugData: AlternativeDrug) =>
-              drugData ? <DrugRow key={drugData?.tradeName + drugData?.id} {...drugData} /> : <></>
+              drugData ? (
+                <DrugRow
+                  key={drugData?.tradeName + drugData?.id}
+                  {...drugData}
+                />
+              ) : (
+                <></>
+              )
             )
           ) : (
             <></>

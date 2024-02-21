@@ -27,6 +27,10 @@ const en = {
     diagnosisHeader: "Additional info",
     diagnosisDescription: "Additional information about the patient",
     diagnosisPlaceholder: "Start typing here...",
+    drugsHeader: "Drugs",
+    drugsDescription: "Selected medicines",
+    noDrugsText: "Select medicines to save within found medicines",
+    sendButton: "Save",
   },
   drug: {
     showAlternativeDrugs: "Display alternative drugs",

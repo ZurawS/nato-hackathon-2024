@@ -1,4 +1,5 @@
 import { CommonDrug } from "@/assets/models/drug.model";
+import { infoToSend } from "@/assets/models/infoTosend";
 import { createContext } from "react";
 
 interface ContextModel {

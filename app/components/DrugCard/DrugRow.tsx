@@ -8,7 +8,7 @@ import DataContext from "../Context/DataContext";
 
 const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
   const [selected, setSelected] = useState(false);
-  const {drugsToSend, setDrugsToSend } =  useContext(DataContext);
+  const { drugsToSend, setDrugsToSend } = useContext(DataContext);
 
   const {
     id,
@@ -33,18 +33,23 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
   return (
     <View style={styles.drugContainer}>
       <View style={styles.drugNameContainer}>
-        <View>
-          <Pressable
-            onPress={() => {
-              setSelected(!selected);
+        <Pressable
+          onPress={() => {
+            if(selected) {
+              setDrugsToSend(drugsToSend.filter(drug => drug.id !== alternativeDrug.id))
+              setSelected(!selected)
+            }else{
               setDrugsToSend([...drugsToSend, alternativeDrug]);
-            }}
-          >
-            <Text style={styles.drugName}>{tradeName}</Text>
-          </Pressable>
-          {selected ? <Entypo size={14} name="check" color={"green"} /> : null}
-        </View>
+              setSelected(!selected);
+            }
+          }}
+        >
+          <Text numberOfLines={1} style={styles.drugName}>
+            {tradeName}
+          </Text>
+        </Pressable>
         <Text style={styles.countryCode}>{countryCode}</Text>
+        {selected ? <Entypo size={28} name="check" color={"green"} /> : null}
       </View>
       <View style={styles.detailContainer}>
         <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
   },
   drugNameContainer: {
     flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "center",
     marginRight: 8,
   },
