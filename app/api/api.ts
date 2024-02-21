@@ -17,9 +17,7 @@ interface Error {
   message: string;
 }
 
-export async function getCountryTradeNames(countryCode: string): Promise<string[]> {
-  console.log(apiUrl);
-  
+export async function getCountryDrugNames(countryCode: string): Promise<string[]> {
   const response: AxiosResponse<string[]> = await axios.get(`${apiUrl}/dictionary/tradeNames`, {
     params: { countryCode },
   });

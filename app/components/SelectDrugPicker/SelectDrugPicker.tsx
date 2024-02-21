@@ -1,6 +1,5 @@
 import { View } from "@/components/Themed";
 import { Select } from "@mobile-reality/react-native-select-pro";
-import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
 interface SelectDrugPickerProps {
@@ -8,20 +7,13 @@ interface SelectDrugPickerProps {
 }
 
 function SelectDrugPicker({ selectCountryDrugNames }: SelectDrugPickerProps) {
-    const [selectList, setSelectList] = useState(selectCountryDrugNames);
-
-    useEffect(() => {
-        setSelectList([...selectCountryDrugNames])
-        console.log("RERANDERED")
-    }, [selectCountryDrugNames])
-
   return (
     <View style={styles.selectContainer}>
       <Select
-        options={selectList}
+        options={[...selectCountryDrugNames]}
         searchable
         hideArrow
-        placeholderText="Start typing medicine name"
+        placeholderText="Insert at least 3 characters"
         disabled={selectCountryDrugNames.length === 0}
       />
     </View>
@@ -30,10 +22,10 @@ function SelectDrugPicker({ selectCountryDrugNames }: SelectDrugPickerProps) {
 
 const styles = StyleSheet.create({
   selectContainer: {
-        alignItems: "center",
-        paddingHorizontal: 26,
-        marginVertical: 16,
-  }
-})
+    alignItems: "center",
+    paddingHorizontal: 26,
+    marginVertical: 16,
+  },
+});
 
 export default SelectDrugPicker;
