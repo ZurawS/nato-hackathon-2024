@@ -47,12 +47,15 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const queryClient = new QueryClient();
   const [currentCountry, setCurrentCountry] = useState<string>();
+  const [sourceCountry, setSourceCountry] = useState<string>();
 
   return (
     <DataContext.Provider
       value={{
         currentCountry,
         setCurrentCountry,
+        sourceCountry,
+        setSourceCountry,
       }}
     >
       <QueryClientProvider client={queryClient}>

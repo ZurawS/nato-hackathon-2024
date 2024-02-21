@@ -12,6 +12,8 @@ import DataContext from "../components/Context/DataContext";
 import { useContext, useEffect, useState } from "react";
 import { Drug } from "../../assets/models/drug.model";
 import { getCountryTradeNames } from "../api/api";
+import SourceCountryPicker from "../components/SourceCountryPicker/SourceCountryPicker";
+import SelectDrugPicker from "../components/SelectDrugPicker/SelectDrugPicker";
 
 const results: Drug[] = [
   {
@@ -76,31 +78,13 @@ const results: Drug[] = [
   },
 ];
 
-const data = [
-  {
-    label: "Option 1",
-    value: "option1",
-  },
-  {
-    label: "Option 2",
-    value: "option2",
-  },
-  {
-    label: "Option 3",
-    value: "option3",
-  },
-  {
-    label: "Option 4",
-    value: "option4",
-  },
-];
-
 // DO NOT DELETE THIS INITIALIZES I18N LIBRARY
 const initI18n = i18n;
 
 export default function Dashboard() {
   const { t } = useTranslation();
   const { currentCountry, setCurrentCountry } = useContext(DataContext);
+  const { sourceCountry } = useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
 
   // useEffect(() => {
@@ -108,11 +92,14 @@ export default function Dashboard() {
   // }, []);
 
   function getCountryCodes() {
-    getCountryTradeNames("POL")
+    if (!sourceCountry) {
+      return;
+    }
+    getCountryTradeNames(sourceCountry)
       .then((data) => {
         const selectedCountryNames = data.map((name) => ({ label: name, value: name }));
         setSelectCountryDrugNames(selectedCountryNames);
-        console.log(selectedCountryNames, selectCountryDrugNames);
+        // console.log(selectedCountryNames, selectCountryDrugNames);
       })
       .catch((error) => {
         console.log(error);
@@ -121,27 +108,18 @@ export default function Dashboard() {
 
   useEffect(() => {
     getCountryCodes();
-  }, []);
+  }, [sourceCountry])
 
   return (
     <View style={styles.container}>
       <View style={styles.selectSrcCountryContainer}>
-        <View style={styles.selectSrcCountryTextContainer}></View>
-        <View style={styles.selectSrcCountrySelectContainer}>
-          <Select options={data} searchable />
+        <View style={styles.selectSrcCountryTextContainer}>
+          <Text style={styles.selectSrcCountryText}>Source Country:</Text>
+          <Text style={styles.selectSrcCountryDescText}>Select Source Country of Medicine</Text>
         </View>
+          <SourceCountryPicker />
       </View>
-      {selectCountryDrugNames?.length && (
-        <View style={styles.selectContainer}>
-          <Select
-            options={selectCountryDrugNames}
-            searchable
-            hideArrow
-            multiple
-            placeholderText="Start typing medicine name"
-          />
-        </View>
-      )}
+        <SelectDrugPicker selectCountryDrugNames={selectCountryDrugNames} />
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {results.map((result, index) => (
           <DrugCard
@@ -164,6 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   selectSrcCountryContainer: {
+    flex: 0,
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-between",
@@ -171,15 +150,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 26,
   },
   selectSrcCountryTextContainer: {
-    flex: 1,
+    flex: 0,
     justifyContent: "center",
   },
   selectSrcCountryText: {
     fontSize: 14,
     fontWeight: "bold",
   },
-  selectSrcCountrySelectContainer: {
-    flex: 2,
+  selectSrcCountryDescText: {
+    fontSize: 10,
+    color: "grey",
   },
   selectContainer: {
     alignItems: "center",
