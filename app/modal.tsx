@@ -4,6 +4,7 @@ import { Platform, StyleSheet, TextInput } from "react-native";
 import { Text, View } from "@/components/Themed";
 import ModalFormInput from "./components/ModalFormInput/ModalFormInput";
 import { useTranslation } from "react-i18next";
+import AddPhotoInput from "./components/AddPhotoInput/AddPhotoInput";
 
 export default function ModalScreen() {
   const { t } = useTranslation();
@@ -25,8 +26,11 @@ export default function ModalScreen() {
         <TextInput style={styles.diagnosisTextInput} placeholder={t("modal.diagnosisPlaceholder")} multiline numberOfLines={4} textAlignVertical="top"/>
         </View>
       </ModalFormInput>
+      <ModalFormInput header={t("modal.addPhotoHeader")} description={t("modal.addPhotoDescription")}>
+        <AddPhotoInput />
+      </ModalFormInput>
       <ModalFormInput header={t("modal.drugsHeader")} description={t("modal.drugsDescription")}>
-        <SelectedDrugs />
+        <Text>TODO</Text>
       </ModalFormInput>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
