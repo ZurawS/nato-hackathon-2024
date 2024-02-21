@@ -30,14 +30,14 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   menuItemHeadText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "bold",
     width: "100%",
     paddingHorizontal: 26,
   },
   menuItemDescriptionText: {
-    marginTop: 4,
-    fontSize: 12,
+    marginTop: 1,
+    fontSize: 10,
     color: "gray",
     width: "100%",
     paddingHorizontal: 26,

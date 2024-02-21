@@ -29,7 +29,7 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingVertical: 10,
     alignItems: "center",
     justifyContent: "flex-start",
   },

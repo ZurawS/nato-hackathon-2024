@@ -1,18 +1,33 @@
 import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, TextInput } from "react-native";
 
 import { Text, View } from "@/components/Themed";
+import ModalFormInput from "./components/ModalFormInput/ModalFormInput";
+import { useTranslation } from "react-i18next";
 
 export default function ModalScreen() {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-
+      <ModalFormInput header={t("modal.nameHeader")} description={t("modal.nameDescription")}>
+        <View style={styles.textInputContainer}>
+        <TextInput style={styles.textInput} placeholder={t("modal.namePlaceholder")} />
+        </View>
+      </ModalFormInput>
+      <ModalFormInput header={t("modal.idHeader")} description={t("modal.idDescription")}>
+        <View style={styles.textInputContainer}>
+        <TextInput style={styles.textInput} placeholder={t("modal.idPlaceholder")} />
+        </View>
+      </ModalFormInput>
+      <ModalFormInput header={t("modal.diagnosisHeader")} description={t("modal.diagnosisDescription")}>
+        <View style={styles.textInputContainer}>
+        <TextInput style={styles.diagnosisTextInput} placeholder={t("modal.diagnosisPlaceholder")} multiline numberOfLines={4} textAlignVertical="top"/>
+        </View>
+      </ModalFormInput>
+      <ModalFormInput header={t("modal.drugsHeader")} description={t("modal.drugsDescription")}>
+        <SelectedDrugs />
+      </ModalFormInput>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
@@ -21,17 +36,29 @@ export default function ModalScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingTop: 10,
+    flex: 0,
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
+  textInputContainer: {
+    width: "100%",
+    paddingHorizontal: 26,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  textInput: {
+    height: 40,
+    marginVertical: 6,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+    width: "100%"
   },
+  diagnosisTextInput: {
+    height: 90,
+    marginVertical: 6,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+    width: "100%"
+  }
 });

@@ -56,8 +56,8 @@ export default function Dashboard() {
           <SourceCountryPicker />
       </View>
       {selectCountryDrugNames.length > 0 ?
-        <SelectDrugPicker key={"dupa"} selectCountryDrugNames={[...selectCountryDrugNames]} /> :
-        <SelectDrugPicker key={"dupa1"} selectCountryDrugNames={[]} />}
+        <SelectDrugPicker key={"key1"} selectCountryDrugNames={[...selectCountryDrugNames]} /> :
+        <SelectDrugPicker key={"key2"} selectCountryDrugNames={[]} />}
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {/* //TODO REPLACE WITH API */}
         {/* {results.map((result, index) => (
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: 10
   },
   selectSrcCountryContainer: {
     flex: 0,

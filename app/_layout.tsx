@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { SelectProvider } from "@mobile-reality/react-native-select-pro";
 import DataContext from "./components/Context/DataContext";
 import AppLoadingIndicator from "./components/AppLoadingIndicator/AppLoadingIndicator";
+import { useTranslation } from "react-i18next";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,6 +51,7 @@ function RootLayoutNav() {
   const [currentCountry, setCurrentCountry] = useState<string>();
   const [sourceCountry, setSourceCountry] = useState<string>();
   const [appLoading, setAppLoading] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   return (
     <DataContext.Provider
@@ -66,9 +68,12 @@ function RootLayoutNav() {
         <SelectProvider>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+            <Stack.Screen
+              name="modal"
+              options={{ presentation: "modal", title: t("modal.title") }}
+            />
           </Stack>
-          {appLoading && <AppLoadingIndicator/>}
+          {appLoading && <AppLoadingIndicator />}
         </SelectProvider>
       </QueryClientProvider>
     </DataContext.Provider>
