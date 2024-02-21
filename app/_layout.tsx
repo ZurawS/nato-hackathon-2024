@@ -9,6 +9,7 @@ import DataContext from "./components/Context/DataContext";
 import AppLoadingIndicator from "./components/AppLoadingIndicator/AppLoadingIndicator";
 import { useTranslation } from "react-i18next";
 import { CommonDrug } from "@/assets/models/drug.model";
+import { CountryCodeMapping } from "../assets/models/country-codes.model";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,7 +50,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const queryClient = new QueryClient();
-  const [currentCountry, setCurrentCountry] = useState<string>();
+  const [currentCountry, setCurrentCountry] = useState<CountryCodeMapping>(CountryCodeMapping.en);
   const [sourceCountry, setSourceCountry] = useState<string>();
   const [appLoading, setAppLoading] = useState<boolean>(false);
   const [drugsToSend, setDrugsToSend] = useState<CommonDrug[]>([]);
@@ -65,7 +66,7 @@ function RootLayoutNav() {
         appLoading,
         setAppLoading,
         drugsToSend,
-        setDrugsToSend
+        setDrugsToSend,
       }}
     >
       <QueryClientProvider client={queryClient}>

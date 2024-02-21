@@ -4,8 +4,9 @@ const en = {
     sourceCountry: "Source Country",
     insertThreeCharacters: "Insert at least 3 characters",
     selectSourceCountry: "Select",
-    sourceCountryPlaceholder: "Select Medicine's Country of Origin",
+    sourceCountryPlaceholder: "Select Medicine's Origin",
     noResults: "No results were found",
+    drugSelection: "Drug selection",
   },
   changeLanguage: "Change language",
   settings: {

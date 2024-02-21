@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { FC, useContext, useState } from "react";
 import { KeyValue } from "../../../assets/models/utils.model";
-import { AlternativeDrug, CommonDrug } from "../../../assets/models/drug.model";
+import { AlternativeDrug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
 import { Entypo } from "@expo/vector-icons";
 import DataContext from "../Context/DataContext";
@@ -21,9 +21,7 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
     additionalInfo,
   } = alternativeDrug;
   const { t } = useTranslation();
-  const aditionalInfoArray: KeyValue[] = Object.entries(
-    alternativeDrug.additionalInfo
-  ).map((entry) => ({
+  const aditionalInfoArray: KeyValue[] = Object.entries(alternativeDrug.additionalInfo).map((entry) => ({
     key: entry[0],
     value: entry[1],
   }));
@@ -51,38 +49,38 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
         <Text style={styles.countryCode}>{countryCode}</Text>
         {selected ? <Entypo size={28} name="check" color={"green"} /> : null}
       </View>
-      <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
-          {t("drug.drugDetails.activeIngredientsList")}:
-        </Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
-          {activeIngredientsList}
-        </Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
-          {t("drug.drugDetails.routeOfAdministration")}:
-        </Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
-          {routeOfAdministration}
-        </Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
-          {t("drug.drugDetails.dosage")}:
-        </Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
-          {dosage}
-        </Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={{ ...styles.drugDetail, marginRight: 4 }}>
-          {t("drug.drugDetails.atcCodes")}:
-        </Text>
-        <Text style={(styles.drugDetail, styles.drugDetailValue)}>
-          {atcCodes}
-        </Text>
-      </View>
+      {activeIngredientsList ? (
+        <View style={styles.detailContainer}>
+          <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.activeIngredientsList")}:</Text>
+          <Text style={(styles.drugDetail, styles.drugDetailValue)}>{activeIngredientsList}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+      {routeOfAdministration ? (
+        <View style={styles.detailContainer}>
+          <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.routeOfAdministration")}:</Text>
+          <Text style={(styles.drugDetail, styles.drugDetailValue)}>{routeOfAdministration}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+      {dosage ? (
+        <View style={styles.detailContainer}>
+          <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.dosage")}:</Text>
+          <Text style={(styles.drugDetail, styles.drugDetailValue)}>{dosage}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+      {atcCodes ? (
+        <View style={styles.detailContainer}>
+          <Text style={{ ...styles.drugDetail, marginRight: 4 }}>{t("drug.drugDetails.atcCodes")}:</Text>
+          <Text style={(styles.drugDetail, styles.drugDetailValue)}>{atcCodes}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

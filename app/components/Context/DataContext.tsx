@@ -1,13 +1,13 @@
 import { CommonDrug } from "@/assets/models/drug.model";
-import { infoToSend } from "@/assets/models/infoTosend";
 import { createContext } from "react";
+import { CountryCodeMapping, CountryCodes } from "../../../assets/models/country-codes.model";
 
 interface ContextModel {
   sourceCountry: string | undefined;
-  currentCountry: string | undefined;
+  currentCountry: CountryCodeMapping | undefined;
   appLoading: boolean;
   drugsToSend: CommonDrug[];
-  setCurrentCountry: (country: string) => void;
+  setCurrentCountry: (country: CountryCodeMapping) => void;
   setSourceCountry: (country: string) => void;
   setAppLoading: (isLoading: boolean) => void;
   setDrugsToSend: (drugs: CommonDrug[]) => void;
@@ -15,11 +15,11 @@ interface ContextModel {
 
 const DataContext = createContext<ContextModel>({
   sourceCountry: undefined,
-  currentCountry: "NLD", //country of operation
+  currentCountry: CountryCodeMapping.en,
   appLoading: false,
   drugsToSend: [],
   setDrugsToSend: (drugs: CommonDrug[]) => {},
-  setCurrentCountry: (country: string) => {},
+  setCurrentCountry: (country: CountryCodeMapping) => {},
   setSourceCountry: (country: string) => {},
   setAppLoading: (isLoading: boolean) => {},
 });
