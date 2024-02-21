@@ -10,7 +10,7 @@ const DrugCard: FC<Drug> = ({ initialDrugName, initialDrugIngredient, alternativ
   const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
 
   return (
-    <View style={styles.card}>
+    <View style={styles.card} key={initialDrugName + initialDrugIngredient}>
       <Text style={styles.title}>{initialDrugName}</Text>
       <Text style={styles.text}>{initialDrugIngredient}</Text>
 
@@ -35,7 +35,8 @@ const DrugCard: FC<Drug> = ({ initialDrugName, initialDrugIngredient, alternativ
       {isAlternativeDrugsVisible && (
         <View>
           <View style={styles.separator}></View>
-          {alternativeDrugs.length > 0 && alternativeDrugs.map((drugData) => <DrugRow {...drugData} />)}
+          {alternativeDrugs.length > 0 &&
+            alternativeDrugs.map((drugData) => <DrugRow key={drugData.drugName + drugData.atcCodes} {...drugData} />)}
         </View>
       )}
     </View>

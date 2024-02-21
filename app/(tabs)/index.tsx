@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import { View } from "@/components/Themed";
 
@@ -9,8 +9,9 @@ import DrugCard from "../components/DrugCard/DrugCard";
 import { Select } from "@mobile-reality/react-native-select-pro";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DataContext from "../components/Context/DataContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Drug } from "../../assets/models/drug.model";
+import { getCountryTradeNames } from "../api/api";
 
 const results: Drug[] = [
   {
@@ -100,20 +101,47 @@ const initI18n = i18n;
 export default function Dashboard() {
   const { t } = useTranslation();
   const { currentCountry, setCurrentCountry } = useContext(DataContext);
+  const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
+
+  // useEffect(() => {
+  // getAlternativeDrugList();
+  // }, []);
+
+  function getCountryCodes() {
+    getCountryTradeNames("POL")
+      .then((data) => {
+        const selectedCountryNames = data.map((name) => ({ label: name, value: name }));
+        setSelectCountryDrugNames(selectedCountryNames);
+        console.log(selectedCountryNames, selectCountryDrugNames);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getCountryCodes();
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.selectSrcCountryContainer}>
-        <View style={styles.selectSrcCountryTextContainer}>
-        <Text style={styles.selectSrcCountryText}>Source County:</Text>
-        </View>
+        <View style={styles.selectSrcCountryTextContainer}></View>
         <View style={styles.selectSrcCountrySelectContainer}>
-        <Select options={data} searchable={true} />
+          <Select options={data} searchable />
         </View>
       </View>
-      <View style={styles.selectContainer}>
-        <Select options={data} searchable={true} hideArrow={true} multiple={true} placeholderText="Start typing medicine name"/>
-      </View>
+      {selectCountryDrugNames?.length && (
+        <View style={styles.selectContainer}>
+          <Select
+            options={selectCountryDrugNames}
+            searchable
+            hideArrow
+            multiple
+            placeholderText="Start typing medicine name"
+          />
+        </View>
+      )}
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {results.map((result, index) => (
           <DrugCard
@@ -151,12 +179,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   selectSrcCountrySelectContainer: {
-    flex: 2
+    flex: 2,
   },
   selectContainer: {
     alignItems: "center",
     paddingHorizontal: 26,
-    marginVertical: 16
+    marginVertical: 16,
   },
   resultsContainer: {
     flex: 1,
