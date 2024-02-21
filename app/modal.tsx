@@ -12,13 +12,11 @@ import { infoToSend } from "@/assets/models/infoTosend";
 
 export default function ModalScreen() {
   const { t } = useTranslation();
-  const { drugsToSend } = useContext(DataContext);
-  const [ formInfo, setFormInfo ] = useState<infoToSend>({
-    name: "",
-    id: "",
-    additionalInfo: "",
-    drugs: [],
-  });
+  const { drugsToSend, infoToSend, setInfoToSend } = useContext(DataContext);
+
+  const handleChange = (key: string, value: string) => {
+    setInfoToSend({...infoToSend, [key]: value});
+  }
 
 
   return (
@@ -26,17 +24,18 @@ export default function ModalScreen() {
       <View style={styles.inputsContainer}>
       <ModalFormInput header={t("modal.nameHeader")} description={t("modal.nameDescription")}>
         <View style={styles.textInputContainer}>
-        <TextInput style={styles.textInput} placeholder={t("modal.namePlaceholder")} />
+        <TextInput style={styles.textInput} placeholder={t("modal.namePlaceholder")} onChange={(e) => handleChange("name", e.nativeEvent.text)} value={infoToSend.name}/>
         </View>
       </ModalFormInput>
       <ModalFormInput header={t("modal.idHeader")} description={t("modal.idDescription")}>
         <View style={styles.textInputContainer}>
-        <TextInput style={styles.textInput} placeholder={t("modal.idPlaceholder")} />
+        <TextInput style={styles.textInput} placeholder={t("modal.idPlaceholder")} onChange={(e) => handleChange("id", e.nativeEvent.text)} value={infoToSend.id}/>
         </View>
       </ModalFormInput>
       <ModalFormInput header={t("modal.diagnosisHeader")} description={t("modal.diagnosisDescription")}>
         <View style={styles.textInputContainer}>
-        <TextInput style={styles.diagnosisTextInput} placeholder={t("modal.diagnosisPlaceholder")} multiline numberOfLines={4} textAlignVertical="top"/>
+        <TextInput style={styles.diagnosisTextInput} placeholder={t("modal.diagnosisPlaceholder")} multiline numberOfLines={4} 
+        textAlignVertical="top" onChange={(e) => handleChange("additionalInfo", e.nativeEvent.text)} value={infoToSend.additionalInfo}/>
         </View>
       </ModalFormInput>
       {/* <ModalFormInput header={t("modal.addPhotoHeader")} description={t("modal.addPhotoDescription")}>

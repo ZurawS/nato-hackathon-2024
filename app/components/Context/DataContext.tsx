@@ -7,10 +7,12 @@ interface ContextModel {
   currentCountry: string | undefined;
   appLoading: boolean;
   drugsToSend: CommonDrug[];
+  infoToSend: infoToSend;
   setCurrentCountry: (country: string) => void;
   setSourceCountry: (country: string) => void;
   setAppLoading: (isLoading: boolean) => void;
   setDrugsToSend: (drugs: CommonDrug[]) => void;
+  setInfoToSend: (info: infoToSend) => void;
 }
 
 const DataContext = createContext<ContextModel>({
@@ -18,10 +20,17 @@ const DataContext = createContext<ContextModel>({
   currentCountry: "NLD", //country of operation
   appLoading: false,
   drugsToSend: [],
+  infoToSend: {
+    name: "",
+    id: "",
+    additionalInfo: "",
+    drugsIds: [],
+  },
   setDrugsToSend: (drugs: CommonDrug[]) => {},
   setCurrentCountry: (country: string) => {},
   setSourceCountry: (country: string) => {},
   setAppLoading: (isLoading: boolean) => {},
+  setInfoToSend: (info: infoToSend) => {},
 });
 
 export default DataContext;

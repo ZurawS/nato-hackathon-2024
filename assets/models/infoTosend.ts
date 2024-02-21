@@ -4,5 +4,5 @@ export interface infoToSend  {
     name: string;
     id: string;
     additionalInfo: string;
-    drugs: string[];
+    drugsIds: string[];
 }
