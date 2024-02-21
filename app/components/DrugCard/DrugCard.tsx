@@ -10,8 +10,6 @@ interface Props extends Drug {
 }
 
 const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props) => {
-  console.log({ sourceDrug });
-  console.log({ alternativeDrugs });
   const {
     id,
     countryCode,
@@ -25,8 +23,6 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
   const { t } = useTranslation();
   const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
   const activeIngredientsList = Object.values(activeIngredients).join(", ");
-
-  console.log(alternativeDrugs);
 
   return (
     <View style={styles.card}>

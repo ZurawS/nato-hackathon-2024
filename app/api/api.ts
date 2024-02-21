@@ -28,7 +28,7 @@ export async function getAlternativeDrugList(
   name: string,
   destinationCountryCode: string,
   sourceCountryCode: string,
-  translationCountryCode: string = "POL"
+  translationCountryCode: string = "GBR"
 ): Promise<DrugResponse> {
   const response: AxiosResponse<DrugResponse> = await axios.post(
     `${apiUrl}/find?name=${name}&destinationCountryCode=${destinationCountryCode}&translationCountryCode=${translationCountryCode}&sourceCountryCode=${sourceCountryCode}`,
