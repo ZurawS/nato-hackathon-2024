@@ -3,21 +3,37 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import DrugRow from "./DrugRow";
 import { Drug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
-const DrugCard: FC<Drug> = ({ sourceDrag, alternativeDrugs }: Drug) => {
+interface Props extends Drug{
+  removeCard: (sourceDrugId: string) => void;
+}
+
+const DrugCard: FC<Props> = ({ sourceDrag, alternativeDrugs, removeCard }) => {
   const { t } = useTranslation();
-  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
-  const activeIngredients = Object.values(sourceDrag.activeIngredients).join(", ");
+  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] =
+    useState<boolean>(false);
+  const activeIngredients = Object.values(sourceDrag.activeIngredients).join(
+    ", "
+  );
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{sourceDrag.tradeName}</Text>
+      <View style={styles.cardHead}>
+        <Text style={styles.title}>{sourceDrag.tradeName}</Text>
+        <Pressable onPress={() => removeCard(sourceDrag.id)}>
+          <AntDesign size={24} color={"gray"} name="close" />
+        </Pressable>
+      </View>
       <Text style={styles.text}>{activeIngredients}</Text>
 
       <Pressable
         style={styles.collapsiableToggle}
-        onPress={() => setIsAlternativeDrugsVisible((isAlternativeDrugsVisible) => !isAlternativeDrugsVisible)}
+        onPress={() =>
+          setIsAlternativeDrugsVisible(
+            (isAlternativeDrugsVisible) => !isAlternativeDrugsVisible
+          )
+        }
       >
         {!isAlternativeDrugsVisible && (
           <View style={styles.chevron}>
@@ -30,14 +46,18 @@ const DrugCard: FC<Drug> = ({ sourceDrag, alternativeDrugs }: Drug) => {
           </View>
         )}
         <Text style={styles.collapsiableToggleText}>
-          {isAlternativeDrugsVisible ? t("drug.hideAlternativeDrugs") : t("drug.showAlternativeDrugs")}
+          {isAlternativeDrugsVisible
+            ? t("drug.hideAlternativeDrugs")
+            : t("drug.showAlternativeDrugs")}
         </Text>
       </Pressable>
       {isAlternativeDrugsVisible && (
         <View>
           <View style={styles.separator}></View>
           {alternativeDrugs.length > 0 &&
-            alternativeDrugs.map((drugData) => <DrugRow key={drugData.tradeName + drugData.id} {...drugData} />)}
+            alternativeDrugs.map((drugData) => (
+              <DrugRow key={drugData.tradeName + drugData.id} {...drugData} />
+            ))}
         </View>
       )}
     </View>
@@ -58,6 +78,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  cardHead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 18,

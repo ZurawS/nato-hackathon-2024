@@ -3,7 +3,7 @@ const en = {
     title: "Find Medicine",
     sourceCountry: "Source Country",
     insertThreeCharacters: "Insert at least 3 characters",
-    selectSourceCountry: "Select Source Country",
+    selectSourceCountry: "Select",
     sourceCountryPlaceholder: "Select Medicine's Country of Origin",
   },
   changeLanguage: "Change language",

@@ -22,7 +22,9 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const { sourceCountry, setAppLoading, currentCountry } = useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
+
   const [selectedDrug, setSelectedDrug] = useState<LabelValue>();
+  const [foundDrugs, setFoundDrugs] = useState<Drug[]>([]);
 
   const { isFetching } = useQuery<string[], AxiosError>(
     ["countryCodes", sourceCountry],
@@ -48,6 +50,7 @@ export default function Dashboard() {
     {
       onSuccess: (availableDrugs: DrugResponse) => {
         console.log(availableDrugs);
+        foundDrugs.push(...availableDrugs.drugs);
       },
       enabled: !!sourceCountry && !!selectedDrug && !!currentCountry,
     }
@@ -60,6 +63,10 @@ export default function Dashboard() {
   useEffect(() => {
     console.log(drugData);
   }, [drugData]);
+
+  const removeCard = (id: string) => {
+    setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrag.id !== id));
+  }
 
   return (
     <View style={styles.container}>
@@ -81,12 +88,13 @@ export default function Dashboard() {
       )}
 
       <KeyboardAwareScrollView style={styles.resultsContainer}>
-        {drugData?.drugs?.length ? (
-          drugData.drugs.map((result, index) => (
+        {foundDrugs?.length ? (
+          foundDrugs.map((result, index) => (
             <DrugCard
               key={`result-${result.sourceDrag.tradeName}-${result.sourceDrag.id}`}
               sourceDrag={result.sourceDrag}
               alternativeDrugs={result.alternativeDrugs}
+              removeCard={removeCard}
             />
           ))
         ) : (
