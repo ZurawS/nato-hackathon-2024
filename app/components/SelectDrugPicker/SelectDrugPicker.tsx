@@ -1,19 +1,15 @@
 import { View } from "@/components/Themed";
-import { OptionType, Select, SelectRef } from "@mobile-reality/react-native-select-pro";
+import { OptionType, Select } from "@mobile-reality/react-native-select-pro";
 import { StyleSheet } from "react-native";
 import { LabelValue } from "../../../assets/models/utils.model";
 import { useTranslation } from "react-i18next";
-import { useRef } from "react";
 
 interface SelectDrugPickerProps {
   selectCountryDrugNames: LabelValue[];
   setSelectedDrug: (value: LabelValue | undefined) => void;
 }
 
-function SelectDrugPicker({
-  selectCountryDrugNames,
-  setSelectedDrug,
-}: SelectDrugPickerProps) {
+function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDrugPickerProps) {
   const { t } = useTranslation();
 
   const handleSelect = (option: OptionType<unknown>) => {
@@ -23,7 +19,7 @@ function SelectDrugPicker({
   return (
     <View style={styles.selectContainer}>
       <Select
-        options={[...selectCountryDrugNames]}
+        options={selectCountryDrugNames}
         searchable
         hideArrow
         onSelect={handleSelect}

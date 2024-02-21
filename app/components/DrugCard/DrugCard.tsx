@@ -10,13 +10,7 @@ interface Props extends Drug {
   removeCard: (sourceDrugId: string) => void;
 }
 
-const DrugCard: FC<Props> = ({
-  sourceDrug,
-  alternativeDrugs,
-  removeCard,
-}: Props) => {
-  console.log({ sourceDrug });
-  console.log({ alternativeDrugs });
+const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props) => {
   const {
     id,
     countryCode,
@@ -33,8 +27,6 @@ const DrugCard: FC<Props> = ({
   const activeIngredientsList = Object.values(activeIngredients).join(", ");
   const { drugsToSend, setDrugsToSend } = useContext(DataContext);
   const [selected, setSelected] = useState(false);
-
-  console.log(alternativeDrugs);
 
   return (
     <View style={styles.card}>

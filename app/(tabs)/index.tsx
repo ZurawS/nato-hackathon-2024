@@ -15,7 +15,7 @@ import { Drug, DrugResponse } from "../../assets/models/drug.model";
 import { LabelValue } from "../../assets/models/utils.model";
 import DrugCard from "../components/DrugCard/DrugCard";
 
-// DO NOT DELETE THIS INITIALIZES I18N LIBRARY
+// DO NOT DELETE THIS, IT INITIALIZES I18N LIBRARY
 const initI18n = i18n;
 
 export default function Dashboard() {
@@ -49,7 +49,6 @@ export default function Dashboard() {
       ),
     {
       onSuccess: (availableDrugs: DrugResponse) => {
-        console.log(availableDrugs);
         foundDrugs.push(...availableDrugs.drugs);
       },
       enabled: !!sourceCountry && !!selectedDrug && !!currentCountry,
@@ -59,10 +58,6 @@ export default function Dashboard() {
   useEffect(() => {
     setAppLoading(isFetching || isFetchingDrugs);
   }, [isFetching, isFetchingDrugs]);
-
-  useEffect(() => {
-    console.log({ drugData });
-  }, [drugData]);
 
   const removeCard = (id: string) => {
     setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
@@ -81,15 +76,11 @@ export default function Dashboard() {
         </View>
         <SourceCountryPicker />
       </View>
-      {selectCountryDrugNames.length > 0 ? (
-        <SelectDrugPicker
-          key={"select"}
-          setSelectedDrug={setSelectedDrug}
-          selectCountryDrugNames={[...selectCountryDrugNames]}
-        />
-      ) : (
-        <SelectDrugPicker key={"select1"} setSelectedDrug={setSelectedDrug} selectCountryDrugNames={[]} />
-      )}
+      <SelectDrugPicker
+        key={selectCountryDrugNames[0]?.label || "no-drugs"}
+        setSelectedDrug={setSelectedDrug}
+        selectCountryDrugNames={selectCountryDrugNames || []}
+      />
 
       <KeyboardAwareScrollView style={styles.resultsContainer}>
         {foundDrugs.length ? (
