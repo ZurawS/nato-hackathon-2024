@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { getCountryTradeNames } from "../api/api";
 import SourceCountryPicker from "../components/SourceCountryPicker/SourceCountryPicker";
 import SelectDrugPicker from "../components/SelectDrugPicker/SelectDrugPicker";
+import AppLoadingIndicator from "../components/AppLoadingIndicator/AppLoadingIndicator";
 
 // DO NOT DELETE THIS INITIALIZES I18N LIBRARY
 const initI18n = i18n;
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const { currentCountry, setCurrentCountry } = useContext(DataContext);
   const { sourceCountry } = useContext(DataContext);
+  const {setAppLoading} = useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
 
   // useEffect(() => {
@@ -27,10 +29,12 @@ export default function Dashboard() {
     if (!sourceCountry) {
       return;
     }
+    setAppLoading(true);
     getCountryTradeNames(sourceCountry)
       .then((data) => {
         const selectedCountryNames = data.map((name) => ({ label: name, value: name }));
         setSelectCountryDrugNames(selectedCountryNames);
+        setAppLoading(false);
         // console.log(selectedCountryNames, selectCountryDrugNames);
       })
       .catch((error) => {
@@ -64,6 +68,7 @@ export default function Dashboard() {
         ))} */}
       </KeyboardAwareScrollView>
     </View>
+    
   );
 }
 
