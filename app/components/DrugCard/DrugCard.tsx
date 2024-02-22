@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import DrugRow from "./DrugRow";
 import { AlternativeDrug, Drug } from "../../../assets/models/drug.model";
@@ -27,6 +27,10 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
   const { drugsToSend, setDrugsToSend } = useContext(DataContext);
   const [selected, setSelected] = useState(false);
 
+  useEffect(() => {
+    setSelected((selected) => (drugsToSend.find((drug) => drug.id === id) ? true : false));
+  }, [drugsToSend]);
+
   return (
     <View style={styles.card}>
       <View style={styles.cardHead}>
@@ -35,10 +39,8 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
             onPress={() => {
               if (selected) {
                 setDrugsToSend(drugsToSend.filter((drug) => drug.id !== sourceDrug.id));
-                setSelected(!selected);
               } else {
                 setDrugsToSend([...drugsToSend, sourceDrug]);
-                setSelected(!selected);
               }
             }}
           >
@@ -50,9 +52,6 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
             {countryCode}
           </Text>
         </View>
-        {selected ? (
-          <AntDesign style={{ ...styles.iconButton, paddingTop: 4 }} size={24} name="check" color={"green"} />
-        ) : null}
         <Pressable style={styles.iconButton} onPress={() => removeCard(sourceDrug.id)}>
           <AntDesign size={24} color={"gray"} name="close" />
         </Pressable>

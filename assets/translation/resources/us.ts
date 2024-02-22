@@ -2,7 +2,7 @@ const us = {
   dashboard: {
     title: "Find Medicine",
     sourceCountry: "Source Country",
-    insertThreeCharacters: "Insert at least 3 characters",
+    insertThreeCharacters: "Enter at least 3 characters",
     selectSourceCountry: "Select",
     sourceCountryPlaceholder: "Select Medicine's Origin",
     noResults: "No results were found",

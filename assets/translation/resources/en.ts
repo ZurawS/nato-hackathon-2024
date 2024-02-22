@@ -2,7 +2,7 @@ const en = {
   dashboard: {
     title: "Find Medicine",
     sourceCountry: "Source Country",
-    insertThreeCharacters: "Insert at least 3 characters",
+    insertThreeCharacters: "Enter at least 3 characters",
     selectSourceCountry: "Select",
     sourceCountryPlaceholder: "Select Medicine's Origin",
     noResults: "No results were found",
@@ -36,13 +36,15 @@ const en = {
     noDrugsText: "Select medicines to save within found medicines",
     sendButton: "Save",
     errorText: "Fill required inputs and select medicines before save",
+    requiredField: "This field is required",
+    required: "Required fields",
     toast: {
-      text1: "Success",
-      text2: "Information was successfully saved",
+      header: "Success",
+      text: "Information was successfully saved",
     },
     toastErrorApi: {
-      text1: "Error",
-      text2: "Check your internet connection",
+      header: "Error",
+      text: "Check your internet connection",
     },
   },
   drug: {

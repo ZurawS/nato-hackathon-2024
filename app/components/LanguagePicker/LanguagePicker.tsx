@@ -17,6 +17,7 @@ const LanguagePicker = () => {
   return (
     <View style={styles.container}>
       <Select
+        scrollToSelectedOption
         options={languages}
         onSelect={(option) => i18n.changeLanguage(option.value)}
         clearable={false}

@@ -22,8 +22,8 @@ const initI18n = i18n;
 export default function Dashboard() {
   const { t } = useTranslation();
   const { sourceCountry, setAppLoading, currentCountry, offlineMode, setOfflineMode } = useContext(DataContext);
-  const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
-  const [initialDrugNames, setinitialDrugNames] = useState<{ label: string; value: string }[]>([]);
+  const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<LabelValue[]>([]);
+  const [initialDrugNames, setinitialDrugNames] = useState<LabelValue[]>([]);
 
   const [selectedDrug, setSelectedDrug] = useState<LabelValue>();
   const [foundDrugs, setFoundDrugs] = useState<Drug[]>([]);
@@ -74,7 +74,16 @@ export default function Dashboard() {
       ),
     {
       onSuccess: (availableDrugs: DrugResponse) => {
-        foundDrugs.push(...availableDrugs.drugs);
+        setFoundDrugs((data) => {
+          const doesAlreadyContainSelectedOption = data.find(
+            (drug) => drug.sourceDrug.tradeName === selectedDrug?.label
+          );
+          if (doesAlreadyContainSelectedOption) {
+            return data;
+          } else {
+            return [...data, ...availableDrugs.drugs];
+          }
+        });
       },
       enabled: !!sourceCountry && !!selectedDrug && !!currentCountry,
     }
@@ -85,7 +94,21 @@ export default function Dashboard() {
   }, [isFetching, isFetchingDrugs]);
 
   const removeCard = (id: string) => {
-    setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
+    const foundDrug: Drug | undefined = foundDrugs.find((drug) => drug.sourceDrug.id === id);
+
+    if (foundDrug) {
+      let filteredDrugs: LabelValue[] = initialDrugNames;
+      filteredDrugs = filteredDrugs.filter((drug) => {
+        const isDrugDisplayed = foundDrugs.find((drugFound) => drugFound.sourceDrug.tradeName === drug.label);
+        if (isDrugDisplayed) {
+          return false;
+        }
+        return true;
+      });
+
+      setSelectCountryDrugNames(filteredDrugs);
+      setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
+    }
   };
 
   function handleDrugSelection(selectedDrug: LabelValue | undefined) {
@@ -108,7 +131,7 @@ export default function Dashboard() {
       </View>
 
       <SelectDrugPicker
-        key={selectCountryDrugNames[0]?.label + selectCountryDrugNames.length || "no-drugs"}
+        key={"country-picker-" + selectCountryDrugNames.length || "no-drugs"}
         setSelectedDrug={handleDrugSelection}
         selectCountryDrugNames={selectCountryDrugNames || []}
       />
@@ -128,9 +151,6 @@ export default function Dashboard() {
             )
           )
         ) : (
-          <></>
-        )}
-        {!foundDrugs.length && sourceCountry ? null : ( // </View> //   <Text style={styles.noReultsFoundText}>{t("dashboard.pleaseSelectDrug")}</Text> // <View style={styles.noReultsFoundContainer}>
           <></>
         )}
       </KeyboardAwareScrollView>
