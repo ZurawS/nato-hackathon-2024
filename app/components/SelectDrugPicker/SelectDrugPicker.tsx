@@ -3,6 +3,8 @@ import { OptionType, Select } from "@mobile-reality/react-native-select-pro";
 import { StyleSheet, Text } from "react-native";
 import { LabelValue } from "../../../assets/models/utils.model";
 import { useTranslation } from "react-i18next";
+import { useContext } from "react";
+import DataContext from "../Context/DataContext";
 
 interface SelectDrugPickerProps {
   selectCountryDrugNames: LabelValue[];
@@ -10,6 +12,7 @@ interface SelectDrugPickerProps {
 }
 
 function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDrugPickerProps) {
+  const { sourceCountry } = useContext(DataContext);
   const { t } = useTranslation();
 
   const handleSelect = (option: OptionType<unknown>) => {
@@ -28,7 +31,7 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
         hideArrow
         onSelect={handleSelect}
         placeholderText={t("dashboard.insertThreeCharacters")}
-        disabled={selectCountryDrugNames.length === 0}
+        disabled={selectCountryDrugNames.length === 0 && sourceCountry !== "ALL"}
       />
     </View>
   );

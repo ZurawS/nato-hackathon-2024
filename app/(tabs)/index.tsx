@@ -23,7 +23,6 @@ export default function Dashboard() {
   const { sourceCountry, setAppLoading, currentCountry } = useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<LabelValue[]>([]);
   const [initialDrugNames, setinitialDrugNames] = useState<LabelValue[]>([]);
-
   const [selectedDrug, setSelectedDrug] = useState<LabelValue>();
   const [foundDrugs, setFoundDrugs] = useState<Drug[]>([]);
 
