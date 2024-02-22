@@ -22,8 +22,7 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
     activeIngredients,
   } = sourceDrug;
   const { t } = useTranslation();
-  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] =
-    useState<boolean>(false);
+  const [isAlternativeDrugsVisible, setIsAlternativeDrugsVisible] = useState<boolean>(false);
   const activeIngredientsList = Object.values(activeIngredients).join(", ");
   const { drugsToSend, setDrugsToSend } = useContext(DataContext);
   const [selected, setSelected] = useState(false);
@@ -34,10 +33,10 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
         <View style={styles.drugNameContainer}>
           <Pressable
             onPress={() => {
-              if(selected) {
-                setDrugsToSend(drugsToSend.filter(drug => drug.id !== sourceDrug.id))
-                setSelected(!selected)
-              }else{
+              if (selected) {
+                setDrugsToSend(drugsToSend.filter((drug) => drug.id !== sourceDrug.id));
+                setSelected(!selected);
+              } else {
                 setDrugsToSend([...drugsToSend, sourceDrug]);
                 setSelected(!selected);
               }
@@ -48,12 +47,13 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
             </Text>
           </Pressable>
           <Text numberOfLines={1} style={styles.countryCode}>
-            {"  "}
             {countryCode}
           </Text>
-          {selected ? <Entypo size={28} name="check" color={"green"} /> : null}
         </View>
-        <Pressable onPress={() => removeCard(sourceDrug.id)}>
+        {selected ? (
+          <AntDesign style={{ ...styles.iconButton, paddingTop: 4 }} size={24} name="check" color={"green"} />
+        ) : null}
+        <Pressable style={styles.iconButton} onPress={() => removeCard(sourceDrug.id)}>
           <AntDesign size={24} color={"gray"} name="close" />
         </Pressable>
       </View>
@@ -63,11 +63,7 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
 
       <Pressable
         style={styles.collapsiableToggle}
-        onPress={() =>
-          setIsAlternativeDrugsVisible(
-            (isAlternativeDrugsVisible) => !isAlternativeDrugsVisible
-          )
-        }
+        onPress={() => setIsAlternativeDrugsVisible((isAlternativeDrugsVisible) => !isAlternativeDrugsVisible)}
       >
         {!isAlternativeDrugsVisible && (
           <View style={styles.chevron}>
@@ -80,10 +76,8 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
           </View>
         )}
         <Text numberOfLines={1} style={styles.collapsiableToggleText}>
-          {isAlternativeDrugsVisible
-            ? t("drug.hideAlternativeDrugs")
-            : t("drug.showAlternativeDrugs")}{" "}
-          ({alternativeDrugs.length})
+          {isAlternativeDrugsVisible ? t("drug.hideAlternativeDrugs") : t("drug.showAlternativeDrugs")} (
+          {alternativeDrugs.length})
         </Text>
       </Pressable>
       {isAlternativeDrugsVisible && (
@@ -91,14 +85,7 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
           <View style={styles.separator}></View>
           {alternativeDrugs.length > 0 ? (
             alternativeDrugs.map((drugData: AlternativeDrug) =>
-              drugData ? (
-                <DrugRow
-                  key={drugData?.tradeName + drugData?.id}
-                  {...drugData}
-                />
-              ) : (
-                <></>
-              )
+              drugData ? <DrugRow key={drugData?.tradeName + drugData?.id} {...drugData} /> : <></>
             )
           ) : (
             <></>
@@ -156,15 +143,22 @@ const styles = StyleSheet.create({
   cardHead: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
   },
   drugNameContainer: {
+    width: "80%",
     flexDirection: "row",
     alignItems: "center",
     marginRight: 8,
   },
   countryCode: {
+    paddingLeft: 4,
     fontSize: 8,
     color: "gray",
+  },
+  iconButton: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

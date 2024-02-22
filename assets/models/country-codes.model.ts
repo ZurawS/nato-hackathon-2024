@@ -12,6 +12,7 @@ export enum CountryCodes {
   GBR = "United Kingdom",
   LTU = "Lithuania",
   NLD = "Netherlands",
+  BGR = "Bulgaria",
 }
 
 export enum CountryCodeMapping {
@@ -21,7 +22,6 @@ export enum CountryCodeMapping {
   fr = "FRA",
   it = "ITA",
   en = "GBR",
-
   hu = "HUN",
   es = "ESP",
   sv = "SVN",
@@ -29,50 +29,7 @@ export enum CountryCodeMapping {
   tr = "TUR",
   lt = "LTU",
   nl = "NLD",
-
-  // de = "DEU",
-  // be = "BEL",
-  // es = "ESP",
-
-  //List of i18n available languages
-  // af = "af",
-  // sq = "sq",
-  // ar = "ar",
-  // eu = "eu",
-  // bg = "bg",
-  // be = "be",
-  // ca = "ca",
-  // hr = "hr",
-  // cs = "cs",
-  // da = "da",
-  // nl = "nl",
-  // eo = "eo",
-  // et = "et",
-  // fo = "fo",
-  // fi = "fi",
-  // gl = "gl",
-  // de = "de",
-  // el = "el",
-  // iw = "iw",
-  // hu = "hu",
-  // is = "is",
-  // ga = "ga",
-  // ja = "ja",
-  // ko = "ko",
-  // lv = "lv",
-  // lt = "lt",
-  // mk = "mk",
-  // mt = "mt",
-  // no = "no",
-  // pt = "pt",
-  // ru = "ru",
-  // gd = "gd",
-  // sk = "sk",
-  // sl = "sl",
-  // es = "es",
-  // sv = "sv",
-  // tr = "tr",
-  // uk = "uk",
+  bg = "BGR",
 }
 
 export function getMappedCountryCode(countryCode: string): keyof typeof CountryCodes {

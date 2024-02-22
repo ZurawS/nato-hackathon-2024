@@ -3,7 +3,7 @@ import React, { FC, useContext, useState } from "react";
 import { KeyValue } from "../../../assets/models/utils.model";
 import { AlternativeDrug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import DataContext from "../Context/DataContext";
 
 const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
@@ -33,10 +33,10 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
       <View style={styles.drugNameContainer}>
         <Pressable
           onPress={() => {
-            if(selected) {
-              setDrugsToSend(drugsToSend.filter(drug => drug.id !== alternativeDrug.id))
-              setSelected(!selected)
-            }else{
+            if (selected) {
+              setDrugsToSend(drugsToSend.filter((drug) => drug.id !== alternativeDrug.id));
+              setSelected(!selected);
+            } else {
               setDrugsToSend([...drugsToSend, alternativeDrug]);
               setSelected(!selected);
             }
@@ -47,7 +47,9 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
           </Text>
         </Pressable>
         <Text style={styles.countryCode}>{countryCode}</Text>
-        {selected ? <Entypo size={28} name="check" color={"green"} /> : null}
+        {selected ? (
+          <AntDesign style={{ ...styles.iconButton, paddingTop: 4 }} size={24} name="check" color={"green"} />
+        ) : null}
       </View>
       {activeIngredientsList ? (
         <View style={styles.detailContainer}>
@@ -106,6 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   drugNameContainer: {
+    width: "80%",
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
@@ -121,5 +124,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginRight: 4,
     flexWrap: "wrap",
+  },
+  iconButton: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
