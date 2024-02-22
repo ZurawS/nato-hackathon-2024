@@ -14,6 +14,7 @@ interface ContextModel {
   setAppLoading: (isLoading: boolean) => void;
   setDrugsToSend: (drugs: CommonDrug[]) => void;
   setInfoToSend: (info: infoToSend) => void;
+  clearInfoToSend: () => void;
 }
 
 const DataContext = createContext<ContextModel>({
@@ -32,6 +33,7 @@ const DataContext = createContext<ContextModel>({
   setSourceCountry: (country: string) => {},
   setAppLoading: (isLoading: boolean) => {},
   setInfoToSend: (info: infoToSend) => {},
+  clearInfoToSend: () => {},
 });
 
 export default DataContext;

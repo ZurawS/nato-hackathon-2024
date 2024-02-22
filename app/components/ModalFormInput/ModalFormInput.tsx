@@ -12,7 +12,9 @@ const ModalFormInput = ({header, description, children}: Props) => {
     <View style={styles.container}>
       <Text style={styles.header}>{header}</Text>
       <Text style={styles.description}>{description}</Text>
+      <View style={{width: "100%", marginBottom: 8}}>
       {children}
+      </View>
     </View>
   )
 }

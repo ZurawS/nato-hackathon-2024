@@ -6,3 +6,15 @@ export interface infoToSend  {
     additionalInfo: string;
     drugsIds: string[];
 }
+
+export interface infoToSendDTO {
+    id: string;
+    additionalInfo: string;
+    name: string;
+    translationCountryCode: string; //app set language
+    drugs: string[];
+}
+
+export interface infoToSendResponse {
+    id: string;
+}

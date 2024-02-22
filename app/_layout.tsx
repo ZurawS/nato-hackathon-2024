@@ -61,6 +61,16 @@ function RootLayoutNav() {
     additionalInfo: "",
     drugsIds: [],
   });
+  const clearInfoToSend = () => {
+    setInfoToSend({
+      name: "",
+      id: "",
+      additionalInfo: "",
+      drugsIds: [],
+    });
+
+    setDrugsToSend([]);
+  }
   const { t } = useTranslation();
 
   return (
@@ -76,6 +86,7 @@ function RootLayoutNav() {
         setDrugsToSend,
         setInfoToSend,
         infoToSend,
+        clearInfoToSend
       }}
     >
       <QueryClientProvider client={queryClient}>

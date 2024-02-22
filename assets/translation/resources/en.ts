@@ -33,6 +33,7 @@ const en = {
     drugsDescription: "Selected medicines",
     noDrugsText: "Select medicines to save within found medicines",
     sendButton: "Save",
+    errorText: "Fill required inputs and select medicines before save",
   },
   drug: {
     showAlternativeDrugs: "Display alternative drugs",

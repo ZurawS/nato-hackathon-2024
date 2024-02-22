@@ -1,5 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import ModalFormInput from "./components/ModalFormInput/ModalFormInput";
@@ -9,19 +15,59 @@ import { useContext, useState } from "react";
 import DataContext from "./components/Context/DataContext";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
 import { infoToSend } from "@/assets/models/infoTosend";
+import { postPatientInfo } from "./api/api";
+import { getMappedCountryCode } from "@/assets/models/country-codes.model";
+import { useNavigation } from "expo-router";
 
 export default function ModalScreen() {
-  const { t } = useTranslation();
-  const { drugsToSend, infoToSend, setInfoToSend } = useContext(DataContext);
+  const { t, i18n } = useTranslation();
+  const { drugsToSend, infoToSend, setInfoToSend, clearInfoToSend } = useContext(DataContext);
+  const [notValidForm, setNotValidForm] = useState(false);
+  const navigation = useNavigation();
 
   const handleChange = (key: string, value: string) => {
+    setNotValidForm(false);
     setInfoToSend({ ...infoToSend, [key]: value });
+  };
+
+  const validadte = (): boolean => {
+    if (!infoToSend.name || !infoToSend.id || drugsToSend.length === 0) {
+      console.log("NOT VALID");
+      return false;
+    }
+    return true;
+  };
+
+  const closeModal = () => {
+    navigation.goBack();
+    clearInfoToSend();
+  }
+
+  const saveInfo = async () => {
+    const mappedLang = getMappedCountryCode(i18n.language);
+    console.log(mappedLang);
+
+    if (!validadte()) {
+      setNotValidForm(true);
+      return;
+    }
+
+    try {
+      await postPatientInfo(infoToSend, drugsToSend, mappedLang);
+    } catch (error) {
+      console.error("Saving patient info", error);
+    }
+
+    closeModal();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.inputsContainer}>
-        <ModalFormInput header={t("modal.nameHeader")} description={t("modal.nameDescription")}>
+        <ModalFormInput
+          header={t("modal.nameHeader")}
+          description={t("modal.nameDescription")}
+        >
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.textInput}
@@ -31,7 +77,10 @@ export default function ModalScreen() {
             />
           </View>
         </ModalFormInput>
-        <ModalFormInput header={t("modal.idHeader")} description={t("modal.idDescription")}>
+        <ModalFormInput
+          header={t("modal.idHeader")}
+          description={t("modal.idDescription")}
+        >
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.textInput}
@@ -41,7 +90,10 @@ export default function ModalScreen() {
             />
           </View>
         </ModalFormInput>
-        <ModalFormInput header={t("modal.diagnosisHeader")} description={t("modal.diagnosisDescription")}>
+        <ModalFormInput
+          header={t("modal.diagnosisHeader")}
+          description={t("modal.diagnosisDescription")}
+        >
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.diagnosisTextInput}
@@ -49,7 +101,9 @@ export default function ModalScreen() {
               multiline
               numberOfLines={4}
               textAlignVertical="top"
-              onChange={(e) => handleChange("additionalInfo", e.nativeEvent.text)}
+              onChange={(e) =>
+                handleChange("additionalInfo", e.nativeEvent.text)
+              }
               value={infoToSend.additionalInfo}
             />
           </View>
@@ -57,27 +111,42 @@ export default function ModalScreen() {
         {/* <ModalFormInput header={t("modal.addPhotoHeader")} description={t("modal.addPhotoDescription")}>
         <AddPhotoInput />
       </ModalFormInput> */}
-        <ModalFormInput header={t("modal.drugsHeader")} description={t("modal.drugsDescription")}>
-          {drugsToSend.length === 0 && <Text style={styles.noDrugsText}>{t("modal.noDrugsText")}</Text>}
+        <ModalFormInput
+          header={t("modal.drugsHeader")}
+          description={t("modal.drugsDescription")}
+        >
+          {drugsToSend.length === 0 && (
+            <Text style={styles.noDrugsText}>{t("modal.noDrugsText")}</Text>
+          )}
           {drugsToSend.map((drug, index) => (
-            <View key={`drug.tradeName${index}`} style={styles.drugNameContainer}>
-              <Text style={styles.drugName}>{drug.tradeName}</Text>
-              <Text style={styles.countryCode}>
-                {"  "}
+            <View
+              key={`drug.tradeName${index}`}
+              style={styles.drugNameContainer}
+            >
+              <Text style={styles.drugName} numberOfLines={1}>
+                {drug.tradeName}
+              </Text>
+              <Text style={styles.countryCode} numberOfLines={1}>
+                {" "}
                 {drug.countryCode}
               </Text>
             </View>
           ))}
         </ModalFormInput>
       </View>
+      {notValidForm && (
+        <Text style={styles.errorText}>{t("modal.errorText")}</Text>
+      )}
       <TouchableOpacity style={styles.buttonContainer}>
+        <Pressable onPress={saveInfo}>
         <View style={styles.button}>
-          <Entypo size={24} color={"white"} name="save" />
+          <Entypo size={24} color={"black"} name="save" />
           <Text style={styles.buttonText}>
             {"  "}
             {t("modal.sendButton")}
           </Text>
         </View>
+        </Pressable>
       </TouchableOpacity>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
@@ -90,7 +159,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     flex: 1,
     alignItems: "flex-start",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
   },
   inputsContainer: {
     flex: 0,
@@ -130,9 +199,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
     width: "100%",
     marginTop: 8,
+    paddingRight: 35,
   },
   drugName: {
-    paddingLeft: 30,
+    paddingLeft: 26,
     fontSize: 15,
     fontWeight: "bold",
   },
@@ -145,7 +215,6 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: "center",
     marginTop: 20,
-    marginBottom: 60,
     paddingHorizontal: 60,
     width: "100%",
   },
@@ -163,8 +232,12 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   buttonText: {
-    color: "#FFFFFF", // Kolor tekstu
+    color: "#000000", // Kolor tekstu
     fontSize: 20,
     fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    paddingLeft: 26,
   },
 });

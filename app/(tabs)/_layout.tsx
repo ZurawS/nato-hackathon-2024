@@ -28,7 +28,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: t("dashboard.title"),
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="medkit" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable >

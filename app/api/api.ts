@@ -1,9 +1,13 @@
 import axios, { AxiosResponse } from "axios";
-import { DrugResponse } from "../../assets/models/drug.model";
+import { CommonDrug, DrugResponse } from "../../assets/models/drug.model";
+import {
+  infoToSend,
+  infoToSendDTO,
+  infoToSendResponse,
+} from "@/assets/models/infoTosend";
 
-const apiUrl = "http://10.202.249.136:8082"; // tide
-// const apiUrl = "http://192.168.137.109:8080"; // hotel
-// http://10.202.249.136:8082/swagger-ui/index.html
+// const apiUrl = "http://10.202.249.136:8080"; // tide
+const apiUrl = "http://10.202.249.136:8082"; // hotel
 
 const handleApiError = (error: any): Error => {
   console.error("API Error:", error);
@@ -18,10 +22,15 @@ interface Error {
   message: string;
 }
 
-export async function getCountryDrugNames(countryCode: string): Promise<string[]> {
-  const response: AxiosResponse<string[]> = await axios.get(`${apiUrl}/dictionary/tradeNames`, {
-    params: { countryCode },
-  });
+export async function getCountryDrugNames(
+  countryCode: string
+): Promise<string[]> {
+  const response: AxiosResponse<string[]> = await axios.get(
+    `${apiUrl}/dictionary/tradeNames`,
+    {
+      params: { countryCode },
+    }
+  );
   return response.data;
 }
 
@@ -37,5 +46,28 @@ export async function getAlternativeDrugList(
       params: { name, destinationCountryCode, sourceCountryCode },
     }
   );
+  return response.data;
+}
+
+export async function postPatientInfo(
+  infoToSend: infoToSend,
+  drugsToSend: CommonDrug[],
+  appLanguage: string
+) {
+  const body: infoToSendDTO = {
+    name: infoToSend.name,
+    id: infoToSend.id,
+    additionalInfo: infoToSend.additionalInfo,
+    translationCountryCode: appLanguage,
+    drugs: drugsToSend.map((drug) => drug.id),
+  };
+
+  console.log(body);
+
+  const response: AxiosResponse<infoToSendResponse> = await axios.post(
+    `${apiUrl}/person`,
+    body
+  );
+
   return response.data;
 }
