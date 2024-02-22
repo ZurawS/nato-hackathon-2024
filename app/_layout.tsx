@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { CommonDrug } from "@/assets/models/drug.model";
 import { infoToSend } from "@/assets/models/infoTosend";
 import { CountryCodeMapping } from "../assets/models/country-codes.model";
-import Toast, { BaseToast } from "react-native-toast-message";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -83,6 +83,22 @@ function RootLayoutNav() {
         text1Style={{
           fontSize: 15,
           fontWeight: '400'
+        }}
+        text2Style={{
+          fontSize: 12
+        }}
+      />
+    ),
+    error: (props: any) => (
+      <ErrorToast
+        {...props}
+        style={{ borderLeftColor: 'red', backgroundColor: '#ffebe6' }}
+        text1Style={{
+          fontSize: 15,
+          fontWeight: '400'
+        }}
+        text2Style={{
+          fontSize: 12
         }}
       />
     ),

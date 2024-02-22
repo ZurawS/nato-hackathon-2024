@@ -37,6 +37,10 @@ const en = {
     toast: {
       text1: "Success",
       text2: "Information was successfully saved",
+    },
+    toastErrorApi: {
+      text1: "Error",
+      text2: "Check your internet connection",
     }
   },
   drug: {

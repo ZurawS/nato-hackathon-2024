@@ -46,6 +46,14 @@ export default function ModalScreen() {
     });
   }
 
+  const showToastErrorApi = () => {
+    Toast.show({
+      type: 'error',
+      text1: t("modal.toastErrorApi.text1"),
+      text2: t("modal.toastErrorApi.text2"),
+    })
+  }
+
   const closeModal = () => {
     navigation.goBack();
     clearInfoToSend();
@@ -63,6 +71,8 @@ export default function ModalScreen() {
       await postPatientInfo(infoToSend, drugsToSend, mappedLang);
     } catch (error) {
       console.error("Saving patient info", error);
+      showToastErrorApi();
+      return;
     }
 
     closeModal();
