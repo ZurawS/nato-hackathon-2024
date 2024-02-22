@@ -22,6 +22,7 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
         {t("dashboard.drugSelection")}:
       </Text>
       <Select
+        key={"select" + selectCountryDrugNames.length}
         options={selectCountryDrugNames}
         searchable
         hideArrow

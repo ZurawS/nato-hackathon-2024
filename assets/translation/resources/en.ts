@@ -2,7 +2,7 @@ const en = {
   dashboard: {
     title: "Find Medicine",
     sourceCountry: "Source Country",
-    insertThreeCharacters: "Insert at least 3 characters",
+    insertThreeCharacters: "Enter at least 3 characters",
     selectSourceCountry: "Select",
     sourceCountryPlaceholder: "Select Medicine's Origin",
     noResults: "No results were found",
@@ -35,9 +35,9 @@ const en = {
     sendButton: "Save",
     errorText: "Fill required inputs and select medicines before save",
     toast: {
-      text1: "Success",
-      text2: "Information was successfully saved",
-    }
+      success: "Success",
+      error: "Information was successfully saved",
+    },
   },
   drug: {
     showAlternativeDrugs: "Display alternative drugs",

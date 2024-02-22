@@ -50,9 +50,6 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
             {countryCode}
           </Text>
         </View>
-        {selected ? (
-          <AntDesign style={{ ...styles.iconButton, paddingTop: 4 }} size={24} name="check" color={"green"} />
-        ) : null}
         <Pressable style={styles.iconButton} onPress={() => removeCard(sourceDrug.id)}>
           <AntDesign size={24} color={"gray"} name="close" />
         </Pressable>
