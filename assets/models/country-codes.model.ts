@@ -16,7 +16,7 @@ export enum CountryCodes {
 }
 
 export enum CountryCodeMapping {
-  gb = "GBR",
+  en = "GBR",
   bg = "BGR",
   cr = "CRO",
   es = "ESP",

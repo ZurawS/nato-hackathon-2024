@@ -22,6 +22,7 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const { sourceCountry, setAppLoading, currentCountry } = useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
+  const [initialDrugNames, setinitialDrugNames] = useState<{ label: string; value: string }[]>([]);
 
   const [selectedDrug, setSelectedDrug] = useState<LabelValue>();
   const [foundDrugs, setFoundDrugs] = useState<Drug[]>([]);
@@ -32,7 +33,8 @@ export default function Dashboard() {
     {
       onSuccess: (availableDrugs: string[]) => {
         const newOptions = availableDrugs.map((name) => ({ label: name, value: name }));
-        setSelectCountryDrugNames(() => [...newOptions]);
+        setSelectCountryDrugNames(newOptions);
+        setinitialDrugNames(newOptions);
       },
       enabled: !!sourceCountry,
     }
@@ -105,10 +107,7 @@ export default function Dashboard() {
         ) : (
           <></>
         )}
-        {!foundDrugs.length &&
-        sourceCountry ? //   <Text style={styles.noReultsFoundText}>{t("dashboard.pleaseSelectDrug")}</Text> // <View style={styles.noReultsFoundContainer}>
-        // </View>
-        null : (
+        {!foundDrugs.length && sourceCountry ? null : ( // </View> //   <Text style={styles.noReultsFoundText}>{t("dashboard.pleaseSelectDrug")}</Text> // <View style={styles.noReultsFoundContainer}>
           <></>
         )}
       </KeyboardAwareScrollView>
