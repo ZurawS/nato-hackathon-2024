@@ -34,6 +34,7 @@ const en = {
     noDrugsText: "Select medicines to save within found medicines",
     sendButton: "Save",
     errorText: "Fill required inputs and select medicines before save",
+    requiredField: "This field is required",
     required: "Required fields",
     toast: {
       header: "Success",

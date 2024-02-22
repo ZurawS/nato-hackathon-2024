@@ -15,16 +15,15 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export default function ModalScreen() {
   const { t, i18n } = useTranslation();
   const { drugsToSend, setDrugsToSend, infoToSend, setInfoToSend, clearInfoToSend } = useContext(DataContext);
-  const [notValidForm, setNotValidForm] = useState(false);
+  const [notValidForm, setNotValidForm] = useState<boolean>(false);
   const navigation = useNavigation();
 
   const handleChange = (key: string, value: string) => {
-    setNotValidForm(false);
     setInfoToSend({ ...infoToSend, [key]: value });
   };
 
   const validadte = (): boolean => {
-    if (!infoToSend.name || !infoToSend.id || drugsToSend.length === 0) {
+    if (!infoToSend.name || !infoToSend.id) {
       return false;
     }
     return true;
@@ -58,9 +57,10 @@ export default function ModalScreen() {
       setNotValidForm(true);
       return;
     }
+    setNotValidForm(false);
 
     try {
-      await postPatientInfo(infoToSend, drugsToSend, mappedLang);
+      await postPatientInfo(infoToSend, drugsToSend || [], mappedLang);
       setDrugsToSend([]);
     } catch (error) {
       console.error("Saving patient info", error);
@@ -75,7 +75,7 @@ export default function ModalScreen() {
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.inputsContainer}>
-        <ModalFormInput header={t("modal.nameHeader")} description={t("modal.nameDescription")}>
+        <ModalFormInput header={t("modal.nameHeader") + " *"} description={t("modal.nameDescription")}>
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.textInput}
@@ -84,8 +84,15 @@ export default function ModalScreen() {
               value={infoToSend.name}
             />
           </View>
+          {notValidForm && !infoToSend?.name ? (
+            <View style={styles.textInputContainer}>
+              <Text style={styles.requiredField}>{t("modal.requiredField")}!</Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </ModalFormInput>
-        <ModalFormInput header={t("modal.idHeader")} description={t("modal.idDescription")}>
+        <ModalFormInput header={t("modal.idHeader") + " *"} description={t("modal.idDescription")}>
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.textInput}
@@ -94,6 +101,13 @@ export default function ModalScreen() {
               value={infoToSend.id}
             />
           </View>
+          {notValidForm && !infoToSend?.id ? (
+            <View style={styles.textInputContainer}>
+              <Text style={styles.requiredField}>{t("modal.requiredField")}!</Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </ModalFormInput>
         <ModalFormInput header={t("modal.diagnosisHeader")} description={t("modal.diagnosisDescription")}>
           <View style={styles.textInputContainer}>
@@ -108,8 +122,8 @@ export default function ModalScreen() {
             />
           </View>
         </ModalFormInput>
-        <View>
-          <Text>{t("modal.required")}</Text>
+        <View style={styles.textInputContainer}>
+          <Text style={styles.requiredText}>* {t("modal.required")}</Text>
         </View>
         <ModalFormInput header={t("modal.drugsHeader")} description={t("modal.drugsDescription")}>
           {drugsToSend.length === 0 && <Text style={styles.noDrugsText}>{t("modal.noDrugsText")}.</Text>}
@@ -159,6 +173,9 @@ const styles = StyleSheet.create({
   textInputContainer: {
     width: "100%",
     paddingHorizontal: 26,
+  },
+  requiredText: {
+    paddingBottom: 12,
   },
   textInput: {
     height: 40,
@@ -239,5 +256,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "red",
     height: 400,
+  },
+  requiredField: {
+    fontSize: 12,
+    color: "red",
   },
 });

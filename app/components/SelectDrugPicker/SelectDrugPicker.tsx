@@ -24,6 +24,9 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
 
   const onInputChange = (inputValue: any) => {
     setInputValue(inputValue);
+    if (inputValue && inputValue.length > 2) {
+      setError(undefined);
+    }
   };
 
   const submit = () => {
@@ -40,7 +43,7 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
         {t("dashboard.drugSelection")}:
       </Text>
       <View style={styles.inputContainer}>
-        <View style={styles.select}>
+        <View style={[styles.select, error ? { borderColor: "#f00" } : {}]}>
           <Select
             scrollToSelectedOption
             flatListProps={{ style: { maxHeight: 800 } }}
@@ -60,9 +63,11 @@ function SelectDrugPicker({ selectCountryDrugNames, setSelectedDrug }: SelectDru
           </Text>
         </Pressable>
       </View>
-      <View style={styles.errorContainer}>
-        <Text style={styles.error}>{error}</Text>
-      </View>
+      {error && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.error}>{error}</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -74,10 +79,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 4,
     borderRadius: 4,
-    backgroundColor: "#ff000066",
+    backgroundColor: "#ff000022",
+    paddingVertical: 8,
+    borderColor: "#f00",
+    borderWidth: 1,
   },
   error: {
-    color: "white",
+    color: "#f00",
   },
   inputContainer: {
     flexDirection: "row",
