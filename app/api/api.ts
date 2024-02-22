@@ -62,8 +62,6 @@ export async function postPatientInfo(
     drugs: drugsToSend.map((drug) => drug.id),
   };
 
-  console.log(body);
-
   const response: AxiosResponse<infoToSendResponse> = await axios.post(
     `${apiUrl}/person`,
     body

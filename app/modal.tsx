@@ -32,7 +32,6 @@ export default function ModalScreen() {
 
   const validadte = (): boolean => {
     if (!infoToSend.name || !infoToSend.id || drugsToSend.length === 0) {
-      console.log("NOT VALID");
       return false;
     }
     return true;
@@ -45,7 +44,6 @@ export default function ModalScreen() {
 
   const saveInfo = async () => {
     const mappedLang = getMappedCountryCode(i18n.language);
-    console.log(mappedLang);
 
     if (!validadte()) {
       setNotValidForm(true);
