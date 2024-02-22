@@ -7,7 +7,7 @@ export enum CountryCodes {
   HUN = "Hungary",
   ESP = "Spain",
   SVN = "Slovenia",
-  HRV = "Croatia",
+  CRO = "Croatia",
   TUR = "Turkey",
   GBR = "United Kingdom",
   LTU = "Lithuania",
@@ -25,13 +25,18 @@ export enum CountryCodeMapping {
   hu = "HUN",
   es = "ESP",
   sv = "SVN",
-  hr = "HRV",
+  cr = "CRO",
   tr = "TUR",
   lt = "LTU",
   nl = "NLD",
   bg = "BGR",
 }
 
-export function getMappedCountryCode(countryCode: string): keyof typeof CountryCodes {
-  return CountryCodeMapping[countryCode as keyof typeof CountryCodeMapping];
+export function getMappedCountryCode(countryCode: keyof typeof CountryCodeMapping): CountryCodeMapping {
+  return CountryCodeMapping[countryCode];
+}
+
+export function getMappedCountryCodeKey(countryCode: CountryCodeMapping): CountryCodes {
+  const country = Object.entries(CountryCodes).find((c) => c[0] === countryCode);
+  return country![1] as CountryCodes;
 }

@@ -9,6 +9,7 @@ import ro from "./resources/ro";
 import sv from "./resources/sv";
 import us from "./resources/us";
 import it from "./resources/it";
+import cr from "./resources/cr";
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: "v3",
@@ -41,6 +42,9 @@ i18n.use(initReactI18next).init({
     },
     us: {
       translation: us,
+    },
+    cr: {
+      translation: cr,
     },
   },
 });
