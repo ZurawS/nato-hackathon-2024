@@ -14,6 +14,7 @@ const CountryOperationPicker = () => {
   return (
     <View style={styles.container}>
       <Select
+        scrollToSelectedOption
         options={countries}
         clearable={false}
         onSelect={(option) => setCurrentCountry(option.value as CountryCodeMapping)}

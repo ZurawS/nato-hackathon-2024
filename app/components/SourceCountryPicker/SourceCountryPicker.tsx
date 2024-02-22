@@ -17,6 +17,7 @@ const SourceCountryPicker = () => {
   return (
     <View style={styles.container}>
       <Select
+        scrollToSelectedOption
         options={countries}
         clearable={false}
         onSelect={(option) => setSourceCountry(option.value)}

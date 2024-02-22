@@ -33,8 +33,8 @@ export default function ModalScreen() {
   const showToast = () => {
     Toast.show({
       type: "success",
-      text1: t("modal.toast.success"),
-      text2: t("modal.toast.error"),
+      text1: t("modal.toast.header"),
+      text2: t("modal.toast.text"),
     });
   };
 
@@ -108,6 +108,9 @@ export default function ModalScreen() {
             />
           </View>
         </ModalFormInput>
+        <View>
+          <Text>{t("modal.required")}</Text>
+        </View>
         <ModalFormInput header={t("modal.drugsHeader")} description={t("modal.drugsDescription")}>
           {drugsToSend.length === 0 && <Text style={styles.noDrugsText}>{t("modal.noDrugsText")}.</Text>}
           {drugsToSend.map((drug, index) => (
