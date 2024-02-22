@@ -35,8 +35,12 @@ const en = {
     sendButton: "Save",
     errorText: "Fill required inputs and select medicines before save",
     toast: {
-      success: "Success",
-      error: "Information was successfully saved",
+      header: "Success",
+      text: "Information was successfully saved",
+    },
+    toastErrorApi: {
+      header: "Error",
+      text: "Check your internet connection",
     },
   },
   drug: {
