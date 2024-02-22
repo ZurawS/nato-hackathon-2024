@@ -16,20 +16,20 @@ export enum CountryCodes {
 }
 
 export enum CountryCodeMapping {
-  pl = "POL",
-  ro = "ROU",
-  us = "USA",
-  fr = "FRA",
-  it = "ITA",
   gb = "GBR",
-  hu = "HUN",
-  es = "ESP",
-  sv = "SVN",
+  bg = "BGR",
   cr = "CRO",
-  tr = "TUR",
+  es = "ESP",
+  fr = "FRA",
+  hu = "HUN",
+  it = "ITA",
   lt = "LTU",
   nl = "NLD",
-  bg = "BGR",
+  pl = "POL",
+  ro = "ROU",
+  sv = "SVN",
+  tr = "TUR",
+  us = "USA",
 }
 
 export function getMappedCountryCode(countryCode: string): keyof typeof CountryCodes {

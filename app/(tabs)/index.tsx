@@ -39,7 +39,7 @@ export default function Dashboard() {
   );
 
   const { isFetching: isFetchingDrugs } = useQuery<DrugResponse, AxiosError>(
-    ["alternativeDrugList", selectedDrug, currentCountry, sourceCountry, i18n.language],
+    ["alternativeDrugList", selectedDrug],
     () =>
       getAlternativeDrugList(
         selectedDrug!.value,
@@ -63,6 +63,11 @@ export default function Dashboard() {
     setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
   };
 
+  function handleDrugSelection(selectedDrug: LabelValue | undefined) {
+    setSelectedDrug(selectedDrug);
+    setSelectCountryDrugNames((data) => data.filter((drug) => drug.label !== selectedDrug?.label));
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.selectSrcCountryContainer}>
@@ -76,9 +81,10 @@ export default function Dashboard() {
         </View>
         <SourceCountryPicker />
       </View>
+
       <SelectDrugPicker
-        key={selectCountryDrugNames[0]?.label || "no-drugs"}
-        setSelectedDrug={setSelectedDrug}
+        key={selectCountryDrugNames[0]?.label + selectCountryDrugNames.length || "no-drugs"}
+        setSelectedDrug={handleDrugSelection}
         selectCountryDrugNames={selectCountryDrugNames || []}
       />
 
@@ -99,11 +105,10 @@ export default function Dashboard() {
         ) : (
           <></>
         )}
-        {!foundDrugs.length && sourceCountry ? (
-          <View style={styles.noReultsFoundContainer}>
-            <Text style={styles.noReultsFoundText}>{t("dashboard.noResults")}</Text>
-          </View>
-        ) : (
+        {!foundDrugs.length &&
+        sourceCountry ? //   <Text style={styles.noReultsFoundText}>{t("dashboard.pleaseSelectDrug")}</Text> // <View style={styles.noReultsFoundContainer}>
+        // </View>
+        null : (
           <></>
         )}
       </KeyboardAwareScrollView>

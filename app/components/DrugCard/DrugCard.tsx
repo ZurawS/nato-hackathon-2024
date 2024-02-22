@@ -42,7 +42,7 @@ const DrugCard: FC<Props> = ({ sourceDrug, alternativeDrugs, removeCard }: Props
               }
             }}
           >
-            <Text numberOfLines={1} style={styles.title}>
+            <Text numberOfLines={1} style={[styles.title, selected && { color: "green" }]}>
               {tradeName}
             </Text>
           </Pressable>

@@ -48,7 +48,12 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
         </Pressable>
         <Text style={styles.countryCode}>{countryCode}</Text>
         {selected ? (
-          <AntDesign style={{ ...styles.iconButton, paddingTop: 4 }} size={24} name="check" color={"green"} />
+          <AntDesign
+            style={[styles.iconButton, { paddingTop: 4 }, selected && { color: "green" }]}
+            size={24}
+            name="check"
+            color={"green"}
+          />
         ) : null}
       </View>
       {activeIngredientsList ? (

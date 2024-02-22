@@ -6,6 +6,7 @@ const en = {
     selectSourceCountry: "Select",
     sourceCountryPlaceholder: "Select Medicine's Origin",
     noResults: "No results were found",
+    pleaseSelectDrug: "Please select a drug",
     drugSelection: "Drug selection",
   },
   changeLanguage: "Change language",
