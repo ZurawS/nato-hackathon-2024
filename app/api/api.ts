@@ -7,7 +7,7 @@ import {
 } from "@/assets/models/infoTosend";
 
 // const apiUrl = "http://10.202.249.136:8080"; // tide
-const apiUrl = "http://10.202.249.136:8082"; // hotel
+const apiUrl = "http://192.168.137.109:8080"; // hotel
 
 const handleApiError = (error: any): Error => {
   console.error("API Error:", error);

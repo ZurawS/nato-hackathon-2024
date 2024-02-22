@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { Button, StyleSheet, Text } from "react-native";
 import { View } from "@/components/Themed";
 import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";
@@ -14,18 +14,28 @@ import { getAlternativeDrugList, getCountryDrugNames } from "../api/api";
 import { Drug, DrugResponse } from "../../assets/models/drug.model";
 import { LabelValue } from "../../assets/models/utils.model";
 import DrugCard from "../components/DrugCard/DrugCard";
+import { getAlternativeDrugListOffline, getCountryDrugNamesOffline } from "../db/offlineApi";
 
 // DO NOT DELETE THIS, IT INITIALIZES I18N LIBRARY
 const initI18n = i18n;
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { sourceCountry, setAppLoading, currentCountry } = useContext(DataContext);
+  const { sourceCountry, setAppLoading, currentCountry, offlineMode, setOfflineMode } = useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
   const [initialDrugNames, setinitialDrugNames] = useState<{ label: string; value: string }[]>([]);
 
   const [selectedDrug, setSelectedDrug] = useState<LabelValue>();
   const [foundDrugs, setFoundDrugs] = useState<Drug[]>([]);
+
+  const offlineQueryCountryDrugNames = () => {
+    getCountryDrugNamesOffline(sourceCountry || getMappedCountryCode(i18n.language)).then((availableDrugs) => {
+      const newOptions = availableDrugs.map((name) => ({ label: name, value: name }));
+      setSelectCountryDrugNames(newOptions);
+      setinitialDrugNames(newOptions);
+      setAppLoading(false);
+    })
+  }
 
   const { isFetching } = useQuery<string[], AxiosError>(
     ["countryCodes", sourceCountry],
@@ -36,9 +46,22 @@ export default function Dashboard() {
         setSelectCountryDrugNames(newOptions);
         setinitialDrugNames(newOptions);
       },
-      enabled: !!sourceCountry,
+      onError: () => {
+        setOfflineMode(true);
+        offlineQueryCountryDrugNames();
+      },
+      enabled: !!sourceCountry && !offlineMode,
     }
   );
+
+  useEffect(() => {
+    if (offlineMode) {
+      setAppLoading(true);
+      if(!!sourceCountry){
+        offlineQueryCountryDrugNames();
+      }
+    }
+  }, [sourceCountry])
 
   const { isFetching: isFetchingDrugs } = useQuery<DrugResponse, AxiosError>(
     ["alternativeDrugList", selectedDrug],
@@ -111,6 +134,8 @@ export default function Dashboard() {
           <></>
         )}
       </KeyboardAwareScrollView>
+      <Button title="test Sqlite" onPress={async () => await getCountryDrugNamesOffline('%BGR%')} />
+      {/* <Button title="test Sqlite" onPress={async () => await getAlternativeDrugListOffline('%POL%', '%Fervex%')} /> */}
     </View>
   );
 }
