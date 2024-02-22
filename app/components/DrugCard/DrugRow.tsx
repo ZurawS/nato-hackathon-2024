@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { KeyValue } from "../../../assets/models/utils.model";
 import { AlternativeDrug } from "../../../assets/models/drug.model";
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,10 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
   const atcCodes: string[] = Object.keys(activeIngredients);
   const activeIngredientsList: string[] = Object.values(activeIngredients);
 
+  useEffect(() => {
+    setSelected((selected) => (drugsToSend.find((drug) => drug.id === id) ? true : false));
+  }, [drugsToSend]);
+
   return (
     <View style={styles.drugContainer}>
       <View style={styles.drugNameContainer}>
@@ -34,10 +38,8 @@ const DrugRow: FC<AlternativeDrug> = (alternativeDrug: AlternativeDrug) => {
           onPress={() => {
             if (selected) {
               setDrugsToSend(drugsToSend.filter((drug) => drug.id !== alternativeDrug.id));
-              setSelected(!selected);
             } else {
               setDrugsToSend([...drugsToSend, alternativeDrug]);
-              setSelected(!selected);
             }
           }}
         >
