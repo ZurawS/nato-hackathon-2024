@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { CommonDrug } from "@/assets/models/drug.model";
 import { infoToSend } from "@/assets/models/infoTosend";
 import { CountryCodeMapping } from "../assets/models/country-codes.model";
+import Toast, { BaseToast } from "react-native-toast-message";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -73,6 +74,20 @@ function RootLayoutNav() {
   }
   const { t } = useTranslation();
 
+  const toastConfig = {
+    success: (props : any) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: 'green', backgroundColor: '#e6ffe6' }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 15,
+          fontWeight: '400'
+        }}
+      />
+    ),
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -96,6 +111,7 @@ function RootLayoutNav() {
             <Stack.Screen name="modal" options={{ presentation: "modal", title: t("modal.title") }} />
           </Stack>
           {appLoading && <AppLoadingIndicator />}
+          <Toast position="bottom" bottomOffset={70} config={toastConfig}/>
         </SelectProvider>
       </QueryClientProvider>
     </DataContext.Provider>

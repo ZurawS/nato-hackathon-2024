@@ -18,6 +18,7 @@ import { infoToSend } from "@/assets/models/infoTosend";
 import { postPatientInfo } from "./api/api";
 import { getMappedCountryCode } from "@/assets/models/country-codes.model";
 import { useNavigation } from "expo-router";
+import Toast from "react-native-toast-message";
 
 export default function ModalScreen() {
   const { t, i18n } = useTranslation();
@@ -36,6 +37,14 @@ export default function ModalScreen() {
     }
     return true;
   };
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: t("modal.toast.text1"),
+      text2: t("modal.toast.text2"),
+    });
+  }
 
   const closeModal = () => {
     navigation.goBack();
@@ -57,6 +66,8 @@ export default function ModalScreen() {
     }
 
     closeModal();
+    showToast();
+
   };
 
   return (
