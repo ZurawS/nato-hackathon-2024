@@ -13,10 +13,7 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <SettingItem
-        headText={t("settings.headTextLanguage")}
-        descriptionText={t("settings.descriptionTextLanguage")}
-      >
+      <SettingItem headText={t("settings.headTextLanguage")} descriptionText={t("settings.descriptionTextLanguage")}>
         <LanguagePicker />
       </SettingItem>
       <SettingItem
@@ -31,8 +28,8 @@ export default function Settings() {
       >
         <View style={styles.toggle}>
           <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={offlineMode ? "#f5dd4b" : "#f4f3f4"}
+            trackColor={{ false: "#3e3e3e", true: "#76757766" }}
+            thumbColor={offlineMode ? "#2e78b7" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={() => setOfflineMode(!offlineMode)}
             value={offlineMode}
@@ -52,8 +49,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   toggle: {
-    marginTop: 100,
-    alignItems: "center",
+    marginTop: -40,
+    marginRight: -292,
     justifyContent: "center",
+    alignItems: "center",
+    width: 60,
   },
 });
