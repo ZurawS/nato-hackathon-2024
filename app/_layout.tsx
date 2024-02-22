@@ -51,7 +51,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const queryClient = new QueryClient();
-  const [currentCountry, setCurrentCountry] = useState<CountryCodeMapping>(CountryCodeMapping.en);
+  const [currentCountry, setCurrentCountry] = useState<CountryCodeMapping>(CountryCodeMapping.gb);
   const [sourceCountry, setSourceCountry] = useState<string>();
   const [appLoading, setAppLoading] = useState<boolean>(false);
   const [drugsToSend, setDrugsToSend] = useState<CommonDrug[]>([]);
@@ -75,7 +75,7 @@ function RootLayoutNav() {
         drugsToSend,
         setDrugsToSend,
         setInfoToSend,
-        infoToSend
+        infoToSend,
       }}
     >
       <QueryClientProvider client={queryClient}>

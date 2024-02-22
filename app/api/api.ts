@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios";
-import { Drug, DrugResponse } from "../../assets/models/drug.model";
+import { DrugResponse } from "../../assets/models/drug.model";
 
-// const apiUrl = "http://10.202.249.136:8080"; // tide
-const apiUrl = "http://192.168.137.109:8080"; // hotel
+const apiUrl = "http://10.202.249.136:8082"; // tide
+// const apiUrl = "http://192.168.137.109:8080"; // hotel
+// http://10.202.249.136:8082/swagger-ui/index.html
 
 const handleApiError = (error: any): Error => {
   console.error("API Error:", error);

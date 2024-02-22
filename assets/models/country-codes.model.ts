@@ -21,7 +21,7 @@ export enum CountryCodeMapping {
   us = "USA",
   fr = "FRA",
   it = "ITA",
-  en = "GBR",
+  gb = "GBR",
   hu = "HUN",
   es = "ESP",
   sv = "SVN",
@@ -32,8 +32,8 @@ export enum CountryCodeMapping {
   bg = "BGR",
 }
 
-export function getMappedCountryCode(countryCode: keyof typeof CountryCodeMapping): CountryCodeMapping {
-  return CountryCodeMapping[countryCode];
+export function getMappedCountryCode(countryCode: string): keyof typeof CountryCodes {
+  return CountryCodeMapping[countryCode as keyof typeof CountryCodeMapping];
 }
 
 export function getMappedCountryCodeKey(countryCode: CountryCodeMapping): CountryCodes {

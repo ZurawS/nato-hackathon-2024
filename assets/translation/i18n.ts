@@ -10,6 +10,10 @@ import sv from "./resources/sv";
 import us from "./resources/us";
 import it from "./resources/it";
 import cr from "./resources/cr";
+import tr from "./resources/tr";
+import lt from "./resources/lt";
+import nl from "./resources/nl";
+import bg from "./resources/bg";
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: "v3",
@@ -45,6 +49,18 @@ i18n.use(initReactI18next).init({
     },
     cr: {
       translation: cr,
+    },
+    tr: {
+      translation: tr,
+    },
+    lt: {
+      translation: lt,
+    },
+    nl: {
+      translation: nl,
+    },
+    bg: {
+      translation: bg,
     },
   },
 });
