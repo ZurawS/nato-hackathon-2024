@@ -1,13 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { CommonDrug, DrugResponse } from "../../assets/models/drug.model";
-import {
-  infoToSend,
-  infoToSendDTO,
-  infoToSendResponse,
-} from "@/assets/models/infoTosend";
+import { infoToSend, infoToSendDTO, infoToSendResponse } from "@/assets/models/infoTosend";
 
-// const apiUrl = "http://10.202.249.136:8080"; // tide
-const apiUrl = "http://10.202.249.136:8082"; // hotel
+const apiUrl = "http://10.202.249.136:8080"; // tide
 
 const handleApiError = (error: any): Error => {
   console.error("API Error:", error);
@@ -22,15 +17,10 @@ interface Error {
   message: string;
 }
 
-export async function getCountryDrugNames(
-  countryCode: string
-): Promise<string[]> {
-  const response: AxiosResponse<string[]> = await axios.get(
-    `${apiUrl}/dictionary/tradeNames`,
-    {
-      params: { countryCode },
-    }
-  );
+export async function getCountryDrugNames(countryCode: string): Promise<string[]> {
+  const response: AxiosResponse<string[]> = await axios.get(`${apiUrl}/dictionary/tradeNames`, {
+    params: { countryCode },
+  });
   return response.data;
 }
 
@@ -49,11 +39,7 @@ export async function getAlternativeDrugList(
   return response.data;
 }
 
-export async function postPatientInfo(
-  infoToSend: infoToSend,
-  drugsToSend: CommonDrug[],
-  appLanguage: string
-) {
+export async function postPatientInfo(infoToSend: infoToSend, drugsToSend: CommonDrug[], appLanguage: string) {
   const body: infoToSendDTO = {
     name: infoToSend.name,
     id: infoToSend.id,
@@ -62,10 +48,7 @@ export async function postPatientInfo(
     drugs: drugsToSend.map((drug) => drug.id),
   };
 
-  const response: AxiosResponse<infoToSendResponse> = await axios.post(
-    `${apiUrl}/person`,
-    body
-  );
+  const response: AxiosResponse<infoToSendResponse> = await axios.post(`${apiUrl}/person`, body);
 
   return response.data;
 }

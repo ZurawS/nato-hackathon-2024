@@ -14,18 +14,29 @@ import { getAlternativeDrugList, getCountryDrugNames } from "../api/api";
 import { Drug, DrugResponse } from "../../assets/models/drug.model";
 import { LabelValue } from "../../assets/models/utils.model";
 import DrugCard from "../components/DrugCard/DrugCard";
+// import { getAlternativeDrugListOffline, getCountryDrugNamesOffline } from "../db/offlineApi";
 
 // DO NOT DELETE THIS, IT INITIALIZES I18N LIBRARY
 const initI18n = i18n;
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { sourceCountry, setAppLoading, currentCountry } = useContext(DataContext);
-  const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<{ label: string; value: string }[]>([]);
-  const [initialDrugNames, setinitialDrugNames] = useState<{ label: string; value: string }[]>([]);
+  const { sourceCountry, setAppLoading, currentCountry, offlineMode, setOfflineMode, drugsToSend, setDrugsToSend } =
+    useContext(DataContext);
+  const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<LabelValue[]>([]);
+  const [initialDrugNames, setinitialDrugNames] = useState<LabelValue[]>([]);
 
   const [selectedDrug, setSelectedDrug] = useState<LabelValue>();
   const [foundDrugs, setFoundDrugs] = useState<Drug[]>([]);
+
+  // const offlineQueryCountryDrugNames = () => {
+  //   getCountryDrugNamesOffline(sourceCountry || getMappedCountryCode(i18n.language)).then((availableDrugs) => {
+  //     const newOptions = availableDrugs.map((name) => ({ label: name, value: name }));
+  //     setSelectCountryDrugNames(newOptions);
+  //     setinitialDrugNames(newOptions);
+  //     setAppLoading(false);
+  //   })
+  // }
 
   const { isFetching } = useQuery<string[], AxiosError>(
     ["countryCodes", sourceCountry],
@@ -36,9 +47,22 @@ export default function Dashboard() {
         setSelectCountryDrugNames(newOptions);
         setinitialDrugNames(newOptions);
       },
-      enabled: !!sourceCountry,
+      onError: () => {
+        setOfflineMode(true);
+        // offlineQueryCountryDrugNames();
+      },
+      enabled: !!sourceCountry && !offlineMode,
     }
   );
+
+  useEffect(() => {
+    if (offlineMode) {
+      setAppLoading(true);
+      if (!!sourceCountry) {
+        // offlineQueryCountryDrugNames();
+      }
+    }
+  }, [sourceCountry]);
 
   const { isFetching: isFetchingDrugs } = useQuery<DrugResponse, AxiosError>(
     ["alternativeDrugList", selectedDrug],
@@ -51,7 +75,16 @@ export default function Dashboard() {
       ),
     {
       onSuccess: (availableDrugs: DrugResponse) => {
-        foundDrugs.push(...availableDrugs.drugs);
+        setFoundDrugs((data) => {
+          const doesAlreadyContainSelectedOption = data.find(
+            (drug) => drug.sourceDrug.tradeName === selectedDrug?.label
+          );
+          if (doesAlreadyContainSelectedOption) {
+            return data;
+          } else {
+            return [...data, ...availableDrugs.drugs];
+          }
+        });
       },
       enabled: !!sourceCountry && !!selectedDrug && !!currentCountry,
     }
@@ -62,7 +95,30 @@ export default function Dashboard() {
   }, [isFetching, isFetchingDrugs]);
 
   const removeCard = (id: string) => {
-    setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
+    const foundDrug: Drug | undefined = foundDrugs.find((drug) => drug.sourceDrug.id === id);
+
+    if (foundDrug) {
+      const drugsToDeselect = [
+        ...foundDrug.sourceDrug.tradeName,
+        ...foundDrug.alternativeDrugs.map((drug) => drug.tradeName),
+      ];
+      const drugsToDeselectList = drugsToSend.filter((drug) => {
+        drugsToDeselect.find((drugName) => drug.tradeName === drugName);
+      });
+      setDrugsToSend(drugsToDeselectList);
+
+      let filteredDrugs: LabelValue[] = initialDrugNames;
+      filteredDrugs = filteredDrugs.filter((drug) => {
+        const isDrugDisplayed = foundDrugs.find((drugFound) => drugFound.sourceDrug.tradeName === drug.label);
+        if (isDrugDisplayed) {
+          return false;
+        }
+        return true;
+      });
+
+      setSelectCountryDrugNames(filteredDrugs);
+      setFoundDrugs((foundDrugs) => foundDrugs.filter((drug) => drug.sourceDrug.id !== id));
+    }
   };
 
   function handleDrugSelection(selectedDrug: LabelValue | undefined) {
@@ -85,7 +141,7 @@ export default function Dashboard() {
       </View>
 
       <SelectDrugPicker
-        key={selectCountryDrugNames[0]?.label + selectCountryDrugNames.length || "no-drugs"}
+        key={"country-picker-" + selectCountryDrugNames.length || "no-drugs"}
         setSelectedDrug={handleDrugSelection}
         selectCountryDrugNames={selectCountryDrugNames || []}
       />
@@ -107,10 +163,9 @@ export default function Dashboard() {
         ) : (
           <></>
         )}
-        {!foundDrugs.length && sourceCountry ? null : ( // </View> //   <Text style={styles.noReultsFoundText}>{t("dashboard.pleaseSelectDrug")}</Text> // <View style={styles.noReultsFoundContainer}>
-          <></>
-        )}
       </KeyboardAwareScrollView>
+      {/* <Button title="test Sqlite" onPress={async () => await getCountryDrugNamesOffline("%BGR%")} /> */}
+      {/* <Button title="test Sqlite" onPress={async () => await getAlternativeDrugListOffline('%POL%', '%Fervex%')} /> */}
     </View>
   );
 }

@@ -1,38 +1,29 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-
+import { Pressable, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import ModalFormInput from "./components/ModalFormInput/ModalFormInput";
 import { useTranslation } from "react-i18next";
-import AddPhotoInput from "./components/AddPhotoInput/AddPhotoInput";
 import { useContext, useState } from "react";
 import DataContext from "./components/Context/DataContext";
-import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { infoToSend } from "@/assets/models/infoTosend";
+import { Entypo } from "@expo/vector-icons";
 import { postPatientInfo } from "./api/api";
 import { getMappedCountryCode } from "@/assets/models/country-codes.model";
 import { useNavigation } from "expo-router";
 import Toast from "react-native-toast-message";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ModalScreen() {
   const { t, i18n } = useTranslation();
-  const { drugsToSend, infoToSend, setInfoToSend, clearInfoToSend } = useContext(DataContext);
-  const [notValidForm, setNotValidForm] = useState(false);
+  const { drugsToSend, setDrugsToSend, infoToSend, setInfoToSend, clearInfoToSend } = useContext(DataContext);
+  const [notValidForm, setNotValidForm] = useState<boolean>(false);
   const navigation = useNavigation();
 
   const handleChange = (key: string, value: string) => {
-    setNotValidForm(false);
     setInfoToSend({ ...infoToSend, [key]: value });
   };
 
   const validadte = (): boolean => {
-    if (!infoToSend.name || !infoToSend.id || drugsToSend.length === 0) {
+    if (!infoToSend.name || !infoToSend.id) {
       return false;
     }
     return true;
@@ -40,11 +31,19 @@ export default function ModalScreen() {
 
   const showToast = () => {
     Toast.show({
-      type: 'success',
-      text1: t("modal.toast.text1"),
-      text2: t("modal.toast.text2"),
+      type: "success",
+      text1: t("modal.toast.header"),
+      text2: t("modal.toast.text"),
     });
-  }
+  };
+
+  const showToastErrorApi = () => {
+    Toast.show({
+      type: "error",
+      text1: t("modal.toastErrorApi.header"),
+      text2: t("modal.toastErrorApi.text"),
+    });
+  };
 
   const showToastErrorApi = () => {
     Toast.show({
@@ -57,7 +56,7 @@ export default function ModalScreen() {
   const closeModal = () => {
     navigation.goBack();
     clearInfoToSend();
-  }
+  };
 
   const saveInfo = async () => {
     const mappedLang = getMappedCountryCode(i18n.language);
@@ -66,9 +65,11 @@ export default function ModalScreen() {
       setNotValidForm(true);
       return;
     }
+    setNotValidForm(false);
 
     try {
-      await postPatientInfo(infoToSend, drugsToSend, mappedLang);
+      await postPatientInfo(infoToSend, drugsToSend || [], mappedLang);
+      setDrugsToSend([]);
     } catch (error) {
       console.error("Saving patient info", error);
       showToastErrorApi();
@@ -77,16 +78,12 @@ export default function ModalScreen() {
 
     closeModal();
     showToast();
-
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.inputsContainer}>
-        <ModalFormInput
-          header={t("modal.nameHeader")}
-          description={t("modal.nameDescription")}
-        >
+        <ModalFormInput header={t("modal.nameHeader") + " *"} description={t("modal.nameDescription")}>
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.textInput}
@@ -95,11 +92,15 @@ export default function ModalScreen() {
               value={infoToSend.name}
             />
           </View>
+          {notValidForm && !infoToSend?.name ? (
+            <View style={styles.textInputContainer}>
+              <Text style={styles.requiredField}>{t("modal.requiredField")}!</Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </ModalFormInput>
-        <ModalFormInput
-          header={t("modal.idHeader")}
-          description={t("modal.idDescription")}
-        >
+        <ModalFormInput header={t("modal.idHeader") + " *"} description={t("modal.idDescription")}>
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.textInput}
@@ -108,11 +109,15 @@ export default function ModalScreen() {
               value={infoToSend.id}
             />
           </View>
+          {notValidForm && !infoToSend?.id ? (
+            <View style={styles.textInputContainer}>
+              <Text style={styles.requiredField}>{t("modal.requiredField")}!</Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </ModalFormInput>
-        <ModalFormInput
-          header={t("modal.diagnosisHeader")}
-          description={t("modal.diagnosisDescription")}
-        >
+        <ModalFormInput header={t("modal.diagnosisHeader")} description={t("modal.diagnosisDescription")}>
           <View style={styles.textInputContainer}>
             <TextInput
               style={styles.diagnosisTextInput}
@@ -120,28 +125,18 @@ export default function ModalScreen() {
               multiline
               numberOfLines={4}
               textAlignVertical="top"
-              onChange={(e) =>
-                handleChange("additionalInfo", e.nativeEvent.text)
-              }
+              onChange={(e) => handleChange("additionalInfo", e.nativeEvent.text)}
               value={infoToSend.additionalInfo}
             />
           </View>
         </ModalFormInput>
-        {/* <ModalFormInput header={t("modal.addPhotoHeader")} description={t("modal.addPhotoDescription")}>
-        <AddPhotoInput />
-      </ModalFormInput> */}
-        <ModalFormInput
-          header={t("modal.drugsHeader")}
-          description={t("modal.drugsDescription")}
-        >
-          {drugsToSend.length === 0 && (
-            <Text style={styles.noDrugsText}>{t("modal.noDrugsText")}</Text>
-          )}
+        <View style={styles.textInputContainer}>
+          <Text style={styles.requiredText}>* {t("modal.required")}</Text>
+        </View>
+        <ModalFormInput header={t("modal.drugsHeader")} description={t("modal.drugsDescription")}>
+          {drugsToSend.length === 0 && <Text style={styles.noDrugsText}>{t("modal.noDrugsText")}.</Text>}
           {drugsToSend.map((drug, index) => (
-            <View
-              key={`drug.tradeName${index}`}
-              style={styles.drugNameContainer}
-            >
+            <View key={`drug.tradeName${index}`} style={styles.drugNameContainer}>
               <Text style={styles.drugName} numberOfLines={1}>
                 {drug.tradeName}
               </Text>
@@ -153,32 +148,31 @@ export default function ModalScreen() {
           ))}
         </ModalFormInput>
       </View>
-      {notValidForm && (
-        <Text style={styles.errorText}>{t("modal.errorText")}</Text>
-      )}
+      {notValidForm && <Text style={styles.errorText}>{t("modal.errorText")}</Text>}
       <TouchableOpacity style={styles.buttonContainer}>
         <Pressable onPress={saveInfo}>
-        <View style={styles.button}>
-          <Entypo size={24} color={"black"} name="save" />
-          <Text style={styles.buttonText}>
-            {"  "}
-            {t("modal.sendButton")}
-          </Text>
-        </View>
+          <View style={styles.button}>
+            <Entypo size={24} color={"black"} name="save" />
+            <Text style={styles.buttonText}>
+              {"  "}
+              {t("modal.sendButton")}
+            </Text>
+          </View>
         </Pressable>
       </TouchableOpacity>
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
-    </View>
+      <StatusBar style={"light"} />
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 10,
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    flexDirection: "column",
+    height: "100%",
+    width: "100%",
+    paddingTop: 10,
+    backgroundColor: "white",
   },
   inputsContainer: {
     flex: 0,
@@ -187,6 +181,9 @@ const styles = StyleSheet.create({
   textInputContainer: {
     width: "100%",
     paddingHorizontal: 26,
+  },
+  requiredText: {
+    paddingBottom: 12,
   },
   textInput: {
     height: 40,
@@ -234,6 +231,7 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: "center",
     marginTop: 20,
+    marginBottom: 40,
     paddingHorizontal: 60,
     width: "100%",
   },
@@ -258,5 +256,17 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     paddingLeft: 26,
+  },
+  resultsContainer: {
+    flex: 1,
+    flexDirection: "column",
+    width: "100%",
+    paddingHorizontal: 20,
+    backgroundColor: "red",
+    height: 400,
+  },
+  requiredField: {
+    fontSize: 12,
+    color: "red",
   },
 });

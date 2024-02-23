@@ -62,6 +62,7 @@ function RootLayoutNav() {
     additionalInfo: "",
     drugsIds: [],
   });
+  const [offlineMode, setOfflineMode] = useState<boolean>(false);
   const clearInfoToSend = () => {
     setInfoToSend({
       name: "",
@@ -117,7 +118,9 @@ function RootLayoutNav() {
         setDrugsToSend,
         setInfoToSend,
         infoToSend,
-        clearInfoToSend
+        clearInfoToSend,
+        offlineMode,
+        setOfflineMode
       }}
     >
       <QueryClientProvider client={queryClient}>

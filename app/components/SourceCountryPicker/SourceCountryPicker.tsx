@@ -9,11 +9,15 @@ const SourceCountryPicker = () => {
   const { t } = useTranslation();
   const { setSourceCountry } = useContext(DataContext);
 
-  const countries = Object.entries(CountryCodes).map((c) => ({ label: c[1], value: c[0] }));
+  const countries = [
+    { label: "All", value: "ALL" },
+    ...Object.entries(CountryCodes).map((c) => ({ label: c[1], value: c[0] })),
+  ];
 
   return (
     <View style={styles.container}>
       <Select
+        scrollToSelectedOption
         options={countries}
         clearable={false}
         onSelect={(option) => setSourceCountry(option.value)}
