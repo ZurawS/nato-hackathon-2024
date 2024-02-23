@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { CommonDrug, DrugResponse } from "../../assets/models/drug.model";
 import { infoToSend, infoToSendDTO, infoToSendResponse } from "@/assets/models/infoTosend";
 
-const apiUrl = "http://192.168.137.109:8080"; // tide
-// const apiUrl = "http://10.202.249.136:8082"; // hotel
+const apiUrl = "http://10.202.249.136:8080"; // tide
 
 const handleApiError = (error: any): Error => {
   console.error("API Error:", error);

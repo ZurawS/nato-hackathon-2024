@@ -17,6 +17,8 @@ const en = {
     headTextCountryOperation: "Country of operation",
     descriptionTextCountryOperation:
       "Select country where you operate. Medicines will be translated to alternatives available in this country.",
+    headTextOfflineMode: "Offline mode",
+    descriptionTextOfflineMode: "Turn on/off offline mode",
   },
   modal: {
     title: "Save information",

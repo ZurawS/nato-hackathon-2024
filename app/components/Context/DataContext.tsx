@@ -9,12 +9,14 @@ interface ContextModel {
   appLoading: boolean;
   drugsToSend: CommonDrug[];
   infoToSend: infoToSend;
+  offlineMode: boolean;
   setCurrentCountry: (country: CountryCodeMapping) => void;
   setSourceCountry: (country: string) => void;
   setAppLoading: (isLoading: boolean) => void;
   setDrugsToSend: (drugs: CommonDrug[]) => void;
   setInfoToSend: (info: infoToSend) => void;
   clearInfoToSend: () => void;
+  setOfflineMode: (mode: boolean) => void;
 }
 
 const DataContext = createContext<ContextModel>({
@@ -28,12 +30,14 @@ const DataContext = createContext<ContextModel>({
     additionalInfo: "",
     drugsIds: [],
   },
+  offlineMode: false,
   setDrugsToSend: (drugs: CommonDrug[]) => {},
   setCurrentCountry: (country: CountryCodeMapping) => {},
   setSourceCountry: (country: string) => {},
   setAppLoading: (isLoading: boolean) => {},
   setInfoToSend: (info: infoToSend) => {},
   clearInfoToSend: () => {},
+  setOfflineMode: (mode: boolean) => {},
 });
 
 export default DataContext;

@@ -13,6 +13,14 @@ export enum CountryCodes {
   LTU = "Lithuania",
   NLD = "Netherlands",
   BGR = "Bulgaria",
+  BEL = "Belgium",
+  PRT = "Portugal",
+  EST = "Estonia",
+  LVA = "Latvia",
+  HRV = "Croatia",
+  CZE = "Czech Republic",
+  NOR = "Norway",
+  ISL = "Iceland",
 }
 
 export enum CountryCodeMapping {
@@ -30,6 +38,14 @@ export enum CountryCodeMapping {
   sv = "SVN",
   tr = "TUR",
   us = "USA",
+  bl = "BEL",
+  pt = "PRT",
+  et = "EST",
+  lv = "LVA",
+  hv = "HRV",
+  cz = "CZE",
+  no = "NOR",
+  is = "ISL",
 }
 
 export function getMappedCountryCode(countryCode: string): keyof typeof CountryCodes {
