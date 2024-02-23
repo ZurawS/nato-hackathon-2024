@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { View } from "@/components/Themed";
 import i18n from "../../assets/translation/i18n";
 import { useTranslation } from "react-i18next";

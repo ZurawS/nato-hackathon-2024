@@ -14,6 +14,14 @@ import tr from "./resources/tr";
 import lt from "./resources/lt";
 import nl from "./resources/nl";
 import bg from "./resources/bg";
+import no from "./resources/no";
+import cz from "./resources/cz";
+import et from "./resources/et";
+import hv from "./resources/hv";
+import pt from "./resources/pt";
+import bl from "./resources/bl";
+import is from "./resources/is";
+import lv from "./resources/lv";
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: "v3",
@@ -61,6 +69,30 @@ i18n.use(initReactI18next).init({
     },
     bg: {
       translation: bg,
+    },
+    no: {
+      translation: no,
+    },
+    cz: {
+      translation: cz,
+    },
+    et: {
+      translation: et,
+    },
+    hv: {
+      translation: hv,
+    },
+    pt: {
+      translation: pt,
+    },
+    bl: {
+      translation: bl,
+    },
+    is: {
+      translation: is,
+    },
+    lv: {
+      translation: lv,
     },
   },
 });
