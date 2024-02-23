@@ -150,7 +150,7 @@ export default function Dashboard() {
           foundDrugs.map((result) =>
             result ? (
               <DrugCard
-                key={`result-${result?.sourceDrug?.tradeName}-${result?.sourceDrug?.id}`}
+                key={`result-${result?.sourceDrug?.tradeName}-${result?.sourceDrug?.id}-${result?.sourceDrug?.countryCode}`}
                 sourceDrug={result.sourceDrug}
                 alternativeDrugs={result.alternativeDrugs}
                 removeCard={removeCard}
