@@ -15,9 +15,7 @@ export function cleanTrialDataString(trialData: string) {
   return trialData;
 }
 
-export async function getCountryDrugNamesOffline(
-  countryCode: string
-): Promise<string[]> {
+export async function getCountryDrugNamesOffline(countryCode: string): Promise<string[]> {
   const db = await openDatabase(pathToDbFile);
   console.log("db_opened");
   const readOnly = true;
@@ -26,7 +24,7 @@ export async function getCountryDrugNamesOffline(
     await db.transactionAsync(async (tx) => {
       const queryResult = await tx.executeSqlAsync(selectDrugNamesQuery, [countryCode]);
       console.log("SQLite result:", queryResult.rows);
-      result = queryResult.rows.map((row) => cleanTrialDataString( row.trade_name));
+      result = queryResult.rows.map((row) => cleanTrialDataString(row.trade_name));
     }, readOnly);
   } catch (e) {
     console.error("Error executing SQL:", e);
@@ -54,19 +52,13 @@ FROM drug
          JOIN active_ingredient ON active_ingredient.atc_code = active_ingredient_drug.active_ingredients_atc_code
 WHERE drug.country_code = (?) AND active_ingredient.atc_code = (?);`;
 
-export async function getAlternativeDrugListOffline(
-  sourceCountryCode: string,
-  sourceDrugName: string
-) {
+export async function getAlternativeDrugListOffline(sourceCountryCode: string, sourceDrugName: string) {
   const db = await openDatabase(pathToDbFile);
   console.log("db_opened");
   const readOnly = true;
   try {
     await db.transactionAsync(async (tx) => {
-      const result = await tx.executeSqlAsync(selectATCCodeQuery, [
-        sourceCountryCode,
-        sourceDrugName,
-      ]);
+      const result = await tx.executeSqlAsync(selectATCCodeQuery, [sourceCountryCode, sourceDrugName]);
       console.log("executed SQL");
       console.log("SQLite result:", result.rows);
     }, readOnly);
