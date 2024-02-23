@@ -45,6 +45,14 @@ export default function ModalScreen() {
     });
   };
 
+  const showToastErrorApi = () => {
+    Toast.show({
+      type: 'error',
+      text1: t("modal.toastErrorApi.text1"),
+      text2: t("modal.toastErrorApi.text2"),
+    })
+  }
+
   const closeModal = () => {
     navigation.goBack();
     clearInfoToSend();
