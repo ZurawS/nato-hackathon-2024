@@ -21,7 +21,8 @@ const initI18n = i18n;
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { sourceCountry, setAppLoading, currentCountry, offlineMode, setOfflineMode } = useContext(DataContext);
+  const { sourceCountry, setAppLoading, currentCountry, offlineMode, setOfflineMode, drugsToSend, setDrugsToSend } =
+    useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<LabelValue[]>([]);
   const [initialDrugNames, setinitialDrugNames] = useState<LabelValue[]>([]);
 
@@ -97,6 +98,15 @@ export default function Dashboard() {
     const foundDrug: Drug | undefined = foundDrugs.find((drug) => drug.sourceDrug.id === id);
 
     if (foundDrug) {
+      const drugsToDeselect = [
+        ...foundDrug.sourceDrug.tradeName,
+        ...foundDrug.alternativeDrugs.map((drug) => drug.tradeName),
+      ];
+      const drugsToDeselectList = drugsToSend.filter((drug) => {
+        drugsToDeselect.find((drugName) => drug.tradeName === drugName);
+      });
+      setDrugsToSend(drugsToDeselectList);
+
       let filteredDrugs: LabelValue[] = initialDrugNames;
       filteredDrugs = filteredDrugs.filter((drug) => {
         const isDrugDisplayed = foundDrugs.find((drugFound) => drugFound.sourceDrug.tradeName === drug.label);

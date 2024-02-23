@@ -1,4 +1,4 @@
-import { StyleSheet, Switch } from "react-native";
+import { Platform, StyleSheet, Switch } from "react-native";
 import { View } from "@/components/Themed";
 import { useTranslation } from "react-i18next";
 import LanguagePicker from "../components/LanguagePicker/LanguagePicker";
@@ -22,20 +22,25 @@ export default function Settings() {
       >
         <CountryOperationPicker />
       </SettingItem>
-      <SettingItem
-        headText={t("settings.headTextOfflineMode")}
-        descriptionText={t("settings.descriptionTextOfflineMode")}
-      >
-        <View style={styles.toggle}>
-          <Switch
-            trackColor={{ false: "#3e3e3e", true: "#76757766" }}
-            thumbColor={offlineMode ? "#2e78b7" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={() => setOfflineMode(!offlineMode)}
-            value={offlineMode}
-          />
-        </View>
-      </SettingItem>
+      <View style={styles.toggleContainer}>
+        <SettingItem
+          headText={t("settings.headTextOfflineMode")}
+          descriptionText={t("settings.descriptionTextOfflineMode")}
+        >
+          <View
+            style={[
+              styles.toggle,
+              Platform.OS === "ios"
+                ? { marginTop: -33 }
+                : {
+                    marginTop: -40,
+                  },
+            ]}
+          >
+            <Switch onValueChange={() => setOfflineMode(!offlineMode)} value={offlineMode} />
+          </View>
+        </SettingItem>
+      </View>
     </View>
   );
 }
@@ -48,9 +53,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     gap: 12,
   },
+  toggleContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
   toggle: {
-    marginTop: -40,
-    marginRight: -292,
+    marginRight: -268,
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     width: 60,
