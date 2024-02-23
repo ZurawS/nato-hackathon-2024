@@ -21,7 +21,7 @@ const initI18n = i18n;
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { sourceCountry, setAppLoading, currentCountry, offlineMode, setOfflineMode, drugsToSend, setDrugsToSend } =
+  const { sourceCountry, setAppLoading, currentCountry, offlineMode, drugsToSend, setDrugsToSend } =
     useContext(DataContext);
   const [selectCountryDrugNames, setSelectCountryDrugNames] = useState<LabelValue[]>([]);
   const [initialDrugNames, setinitialDrugNames] = useState<LabelValue[]>([]);
@@ -48,7 +48,6 @@ export default function Dashboard() {
         setinitialDrugNames(newOptions);
       },
       onError: () => {
-        setOfflineMode(true);
         offlineQueryCountryDrugNames();
       },
       enabled: !!sourceCountry && !offlineMode,

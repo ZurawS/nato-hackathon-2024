@@ -9,7 +9,7 @@ import ro from "./resources/ro";
 import sv from "./resources/sv";
 import us from "./resources/us";
 import it from "./resources/it";
-import cr from "./resources/cr";
+import hv from "./resources/hv";
 import tr from "./resources/tr";
 import lt from "./resources/lt";
 import nl from "./resources/nl";
@@ -17,7 +17,6 @@ import bg from "./resources/bg";
 import no from "./resources/no";
 import cz from "./resources/cz";
 import et from "./resources/et";
-import hv from "./resources/hv";
 import pt from "./resources/pt";
 import bl from "./resources/bl";
 import is from "./resources/is";
@@ -54,9 +53,6 @@ i18n.use(initReactI18next).init({
     },
     us: {
       translation: us,
-    },
-    cr: {
-      translation: cr,
     },
     tr: {
       translation: tr,

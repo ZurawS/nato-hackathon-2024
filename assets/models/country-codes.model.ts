@@ -7,7 +7,6 @@ export enum CountryCodes {
   HUN = "Hungary",
   ESP = "Spain",
   SVN = "Slovenia",
-  CRO = "Croatia",
   TUR = "Turkey",
   GBR = "United Kingdom",
   LTU = "Lithuania",
@@ -26,7 +25,6 @@ export enum CountryCodes {
 export enum CountryCodeMapping {
   en = "GBR",
   bg = "BGR",
-  cr = "CRO",
   es = "ESP",
   fr = "FRA",
   hu = "HUN",
